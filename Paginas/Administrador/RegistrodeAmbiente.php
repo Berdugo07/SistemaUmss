@@ -24,7 +24,12 @@ $nombreUsuario = $row['nombre'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
+    <style>
+        .formulario-wrapper {
+            max-height: 400px; /* Ajusta la altura máxima según sea necesario */
+            overflow-y: auto; /* Activa el desplazamiento vertical cuando el contenido exceda la altura máxima */
+        }
+    </style>
 </head>
 
 <body>
@@ -82,18 +87,10 @@ $nombreUsuario = $row['nombre'];
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                    <a href="./registrar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="useregistro" style="filter: invert(100%);margin-right: 10px;" />
                         <span>REGISTRAR USUARIO</span>
                     </a>
-                    <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                        <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
@@ -164,51 +161,30 @@ $nombreUsuario = $row['nombre'];
                             <!-- Agrega más opciones si es necesario -->
                         </select>
                     </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="periodo">Periodo de Examen</label>
-                        <select class="form-control" id="periodo" name="periodo" required>
-                            <option value="primer parcial">Primer Parcial</option>
-                            <option value="segundo parcial">Segundo Parcial</option>
-                            <option value="tercer parcial">Examen final</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-    <label for="fechaInicio">Fecha de inicio</label>
-    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" min="<?php echo date('Y-m-d'); ?>" required>
-</div>
-<div class="form-group">
-    <label for="fechaFin">Fecha de fin</label>
-    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
-</div>
+                  <div class="form-group">
+    <label for="fecha">Fecha </label>
+    <input type="date" class="form-control" id="fechaInicio" name="fecha" min="<?php echo date('Y-m-d'); ?>" required>
+    
 
-                    <div class="form-group">
-          <label for="horario">Horario Disponible</label>
-    <select class="form-control" id="horario" name="horarios[]" multiple required>
-        <option value="06:45">06:45</option>
-        <option value="08:15">08:15</option>
-        <option value="09:45">09:45</option>
-        <option value="11:15">11:15</option>
-        <option value="12:45">12:45</option>
-        <option value="14:15">14:15</option>
-        <option value="15:45">15:45</option>
-        <option value="17:15">17:15</option>
-        <option value="18:45">18:45</option>
-        <option value="20:15">20:15</option>
-    </select>
+                   
 </div>
                     <div class="form-group">
                         <label for="imagen">Seleccionar Imagen</label>
                         <input type="file" class="form-control-file" name="imgAmbiente">
                     </div>
-
+                    <form action="guardar_aula.php" method="post">
+               <label for="descripcion">Descripción:</label><br>
+        <textarea id="descripcion" name="descripcion"></textarea><br>
+        <input type="submit" value="Guardar">
+    </form>
                     <div class="form-group" style="text-align: center;">
     <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Guardar</button>
     <button type="reset" class="btn btn-danger" style="margin-left: 10px;" onclick="window.location.href='RegistrodeAmbiente.php'">Cancelar</button>
 </div>
 
-                    </div>
-
+                   
+   
+</body>
                 </form>
             </div>
 </div>
@@ -216,9 +192,9 @@ $nombreUsuario = $row['nombre'];
     </div>
 </div>
 <script>
-document.getElementById('fechaInicio').addEventListener('change', function() {
-    var fechaInicio = this.value;
-    document.getElementById('fechaFin').setAttribute('min', fechaInicio);
+document.getElementById('fecha').addEventListener('change', function() {
+    var fecha = this.value;
+  
 });
 </script>
 
