@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -75,10 +75,10 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="Img/Foto1.jpeg" class="d-block img-fluid w-100">
+                        <img src="Img/Foto1.jpeg" class="d-block img-fluid w-100" style="max-height: 90vh;">
                     </div>
                     <div class="carousel-item">
-                        <img src="Img/Foto1.jpeg" class="d-block img-fluid w-100" alt="...">
+                        <img src="Img/Foto1.jpeg" class="d-block img-fluid w-100"  style="max-height: 90vh;">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <footer class="footer">
+  <footer class="footer">
         <div class="footer-links">
             <a href="#" class="about-link">Sobre nosotros</a>
         </div>
@@ -107,7 +107,7 @@
         </div>
     </footer>
 
-
+     
     <script src="js/MenuLateral.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -120,7 +120,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="px-lg-5 py-lg-4 p-4 w-100 mb-auto d-flex flex-column align-items-center">
-                        <img src="Img/logoFCyT.jpeg" class="img-fluid mx-auto mb-3" style="margin-bottom: 20px; border-radius: 10px;">
+                        
                         <h1 class="font-weight-bold mb-4" style="color: #03045E; font-size: 28px;">INICIAR SESIÓN</h1>
 
                         <form action="config/controlador_login.php" method="POST" onsubmit="return validarFormulario()" class="my-4">
@@ -153,7 +153,6 @@
             </div>
         </div>
     </div>
-
     <script>
         function validarFormulario() {
             var email = document.getElementById('exampleInputEmail1').value;

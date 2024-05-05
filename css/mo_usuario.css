@@ -25,10 +25,8 @@ body {
     display: flex;
     z-index: 1; 
 }
-
-.main {
-    min-height: calc(100vh - 100px); /* 100px es la altura del footer */
-    margin-bottom: 100px; /* Igual a la altura del footer */
+.main{
+    min-height: 100vh;
     width: 100%;
     overflow: hidden;
     transition: all 0.35s ease-in-out;
@@ -41,7 +39,7 @@ body {
     transition: all .25s ease-in-out;
     display: flex;
     flex-direction: column;
-    background-color: #262D79;
+    background-color: #20287a;
 
 }
 #sidebar.expand {
@@ -100,6 +98,24 @@ a.sidebar-link:hover{
     background-color: rgba(255,255,255,.075);
     border-left: 3px solid #3b7ddd;
 }
+.sidebar-item_modificar{
+    background-color: rgba(255, 0, 0, 0.082);
+    border-left: 3px solid #3b7ddd;
+}
+
+
+
+
+
+
+
+
+.busqueda{
+    background-color: rgb(29, 55, 204);
+    border-left: 3px solid #124dcc;
+}
+
+
 
 .sidebar-item{
     position: relative;
@@ -221,15 +237,16 @@ footer{
     margin-right: 30px; 
 }
 
-#carouselExampleIndicators {
-    max-width: 100%; /* Establecer un ancho máximo para el carrusel */
-    margin: 0 auto; /* Centrar el carrusel horizontalmente */
-}
 .carousel-item img {
-    max-width: 100%; /* Hacer que la imagen ocupe el ancho máximo posible */
-    height: auto; /* Permitir que la altura se ajuste automáticamente */
+    max-height: 75vh;
+    width: auto;
 }
-
+#carouselExampleIndicators {
+    margin-bottom: -50px;
+    margin-top: -20px; 
+    margin-right: -20px;
+    margin-left: -20px;
+}
 
 /* home usuario */
 
