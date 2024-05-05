@@ -20,22 +20,25 @@ $nombre = $_POST['nombre'];
 $capacidad = $_POST['capacidad'];
 $ubicacion = $_POST['ubicacion'];
 $piso = $_POST['piso'];
-$periodo = $_POST['periodo'];
-$fechaInicio = $_POST['fechaInicio'];
-$fechaFin = $_POST['fechaFin'];
-$horarios = implode(",", $_POST['horarios']); // Concatenar los horarios seleccionados en una cadena separada por comas
 
+$fecha = $_POST['fecha'];
+$descripcion = $_POST['descripcion'];
 
 
 $imgAmbiente = $_FILES["imgAmbiente"];
 $nameImagen = $imgAmbiente["name"];
 $tmpImagen = $imgAmbiente["tmp_name"];
 
-move_uploaded_file($tmpImagen, "../../Img/Ambientes/" . $nameImagen);
 
+move_uploaded_file($tmpImagen, "../../Img/Ambientes/" . $nameImagen);
+$sql = "INSERT INTO ambientes (nombre) VALUES ('Ambiente de prueba')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Registro insertado correctamente";
+} else {
 // Insertar los datos en la base de datos
-$sql = "INSERT INTO ambientes (nombre, capacidad, ubicacion, piso, periodo, fechainicio, fechafin, horarios, imgAmbiente)
-        VALUES ('$nombre', '$capacidad', '$ubicacion', '$piso', '$periodo', '$fechaInicio', '$fechaFin','$horarios', '$nameImagen')";
+$sql = "INSERT INTO ambientes (nombre, capacidad, ubicacion, piso, fecha, descripcion, imgAmbiente)
+        VALUES ('$nombre', '$capacidad', '$ubicacion', '$piso', '$fecha', '$descripcion','$nameImagen')";
 
 if (isset($_FILES["imgAmbiente"]) && $_FILES["imgAmbiente"]["error"] === 0); {
 }
@@ -48,3 +51,4 @@ if ($conn->query($sql) === TRUE) {
 
 // Cerrar la conexión
 $conn->close();
+}
