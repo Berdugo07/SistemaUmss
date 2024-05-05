@@ -1,38 +1,50 @@
 <?php
-// Datos de conexión a la base de datos
-$servername = "localhost"; // Cambia esto si tu servidor de base de datos no está en localhost
+require_once '../../config/validacion_session.php';
+require_once '../../config/conexion.php';
+// Conexión a la base de datos (reemplaza los valores con los de tu servidor)
+$servername = "localhost";
 $username = "root";
 $password = "";
-$database = "reservasumss1";
+$dbname = "reservasumss1";
 
 // Crear conexión
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar la conexión
 if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+    die("Error de conexión: " . $conn->connect_error);
 }
 
-// Recibir datos del formulario
+// Obtener los datos del formulario
 $nombre = $_POST['nombre'];
 $capacidad = $_POST['capacidad'];
 $ubicacion = $_POST['ubicacion'];
+$piso = $_POST['piso'];
 $periodo = $_POST['periodo'];
 $fechaInicio = $_POST['fechaInicio'];
 $fechaFin = $_POST['fechaFin'];
-$horario = $_POST['horario'];
+$horarios = implode(",", $_POST['horarios']); // Concatenar los horarios seleccionados en una cadena separada por comas
 
-// Query SQL para insertar los datos en la tabla correspondiente
-$sql = "INSERT INTO ambientes ( nombre, capacidad, ubicacion, periodo, fechaInicio, fechaFin, horario) 
-        VALUES ('$nombre', '$capacidad', '$ubicacion', '$periodo', '$fechaInicio', '$fechaFin', '$horario')";
 
-// Ejecutar la consulta
-if ($conn->query($sql) === TRUE) {
-    echo "Datos insertados correctamente";
-} else {
-    echo "Error al insertar datos: " . $conn->error;
+
+$imgAmbiente = $_FILES["imgAmbiente"];
+$nameImagen = $imgAmbiente["name"];
+$tmpImagen = $imgAmbiente["tmp_name"];
+
+move_uploaded_file($tmpImagen, "../../Img/Ambientes/" . $nameImagen);
+
+// Insertar los datos en la base de datos
+$sql = "INSERT INTO ambientes (nombre, capacidad, ubicacion, piso, periodo, fechainicio, fechafin, horarios, imgAmbiente)
+        VALUES ('$nombre', '$capacidad', '$ubicacion', '$piso', '$periodo', '$fechaInicio', '$fechaFin','$horarios', '$nameImagen')";
+
+if (isset($_FILES["imgAmbiente"]) && $_FILES["imgAmbiente"]["error"] === 0); {
 }
 
-// Cerrar conexión
+if ($conn->query($sql) === TRUE) {
+    header("Location: RegistrodeAmbiente.php");; // Envía una respuesta al cliente indicando que la operación se completó con éxito
+} else {
+    echo "Erroral insertar datos: " . $sql . "<br>" . $conn->error;
+}
+
+// Cerrar la conexión
 $conn->close();
-?>

@@ -1,0 +1,76 @@
+body {
+    background-color: #f3e5f5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 500px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #5542fa;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+}
+
+.container h2 {
+    color: white;
+    text-align: center;
+}
+
+input[type="text"], input[type="email"], input[type="password"], select {
+    width: 95%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #210278;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #512da8;
+}
+
+.ventana-emergente {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+}
+
+.contenido {
+    margin-bottom: 10px;
+}
+
+.ventana-emergente button {
+    width: 100%;
+}
+
+.toggle-password {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-password i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+

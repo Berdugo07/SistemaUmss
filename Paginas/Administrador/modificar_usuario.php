@@ -8,8 +8,6 @@ $query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
 $result = $conexion->query($query);
 $row = $result->fetch_assoc();
 $nombreUsuario = $row['nombre'];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -19,14 +17,13 @@ $nombreUsuario = $row['nombre'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/mo_usuario.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
 </head>
 
 <body>
@@ -46,7 +43,7 @@ $nombreUsuario = $row['nombre'];
                     <?php echo $nombreUsuario; ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="../../config/controlador_cerrar_sesion.php">Cerrar sesion</a></li>
+                        <li><a class="dropdown-item" href="../../config/controlador_cerrar_sesion.php">Cerar sesion</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,11 +61,11 @@ $nombreUsuario = $row['nombre'];
             </div>
             <ul class="ul sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="HomeA.php" class="sidebar-link" style="text-decoration: none;">
                         <i class="bi bi-house-door-fill fs-4"></i>
                         <span>INICIO</span>
                     </a>
-                    </li>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
@@ -96,9 +93,6 @@ $nombreUsuario = $row['nombre'];
                             <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
                         </li>
                     </ul>
-                </li>
-                    
-
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
@@ -130,7 +124,7 @@ $nombreUsuario = $row['nombre'];
                         <span>CALENDARIO</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item_modificar">
                     <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
                         <span>MODIFICAR CUENTA DE USUARIO</span>
@@ -138,40 +132,84 @@ $nombreUsuario = $row['nombre'];
                 </li>
             </ul>
         </aside>
-        <div class="main p-3">
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    
+        <div class="main p-3"> 
+                            <div class="container mt-5">
+                                <div class="row justify-content-center">
+                                <div class="col-md-8 bg-primary p-4 rounded shadow">
+                                    <h2 class="text-center text-white">Buscar Cuenta Usuario</h2>
+                                    <form method="POST" action ="">
+                                    <div class="row mb-3">
+                                        
+                                        <div class="col-md-6">
+                                        <label for="ci" class="form-label text-white">C.I.:</label>
+                                        <input type="text" class="form-control" name= "ci" id="ci" placeholder="Ingrese la C.I.">
+                                            
+                                    </div>
+                                    </div>
+                                    
+                                    </form>
+                                    
+
+                                    <div class="container">
+                                        
+        <h1>Tabla de usuarios</h1>
+        <div style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
+        <table class="table table-striped" id="searchResultsTable">
+        <thead>
+        <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>CI</th>
+        <th>Modificar</th>
+        </tr>
+        </thead>
+        <tbody id="contend">
+
+        </tbody>
+</table>
+</div>
+       <script>
+
+      
+
+        getData()
+        
+        document.getElementById("ci").addEventListener("keyup",getData)
+
+        function getData(){
+            let input = document.getElementById("ci").value
+            let content = document.getElementById("contend")
+            let url = "funciones_tabla.php"
+            let formaData = new FormData()
+            formaData.append('ci',input)
+
+            fetch(url,{
+                method: "POST",
+                body: formaData
+            }).then(response => response.json())
+            .then(data => {
+                content.innerHTML = data
+            }).catch(err => console.log(err))
+        }
+       </script>
+
+    </div>
+
+
+
+                                
                 </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="../../Img/Foto1.jpeg" class="d-block img-fluid w-100 " style="max-height: 90vh;">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../../Img/Foto1.jpeg" class="d-block img-fluid w-100" style="max-height: 90vh;">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                            
+                 
             </div>
 
         </div>
     </div>
-    <body>
-    
-
-</body>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../../js/MenuLateral.js"></script>
+
 </body>
 
 </html>
