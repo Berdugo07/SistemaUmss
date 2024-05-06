@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
         header("Location:../Paginas/Usuario/HomeU.php");
     } else {
         // Redirigir a una página predeterminada en caso de que el rol no esté definido
-        header("Location:../Paginas/Usuario/HomeU.php");
+        header("Location:../index.php");
     }
 } else {
     header("location: ../index.php?error=cuenta_no_existe");
