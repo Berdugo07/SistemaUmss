@@ -1,3 +1,13 @@
+/* Estilo para el título "Editar Ambiente" */
+#edit-title {
+    text-align: center; /* Centra el texto */
+    background-color: #6372FF; /* Azul */
+    padding: 10px;
+    border-radius: 5px;
+    color: white; /* Color blanco para el texto */
+    margin-bottom: 0;
+}
+
 /* Estilo para el contenedor del formulario */
 .form-container {
     background-color: #6372FF; /* Color de fondo del contenedor */
@@ -5,6 +15,7 @@
     padding: 20px; /* Espaciado interno */
     border-radius: 10px; /* Bordes redondeados */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    margin-top: 0;
 }
 
 /* Estilo para cada fila del formulario */
