@@ -2,7 +2,7 @@
 .listaDeAmbientesRegistrados { 
     background-color: #6372FF;
     color: white;
-    padding: 50 px 20px;
+    padding: 50 px 80px;
     border-radius: 10px; 
 }
 
@@ -32,8 +32,8 @@
     color: black; 
 }
 /* Estilo para las imágenes en la tabla */
-.listaDeAmbientesRegistrados table tbody tr td {
+.listaDeAmbientesRegistrados table tbody tr td img {
     max-width: 100px; /* Ajusta el ancho máximo de la imagen */
-    height: 400px; /* Permite que la altura se ajuste automáticamente */
+    height: auto; /* Permite que la altura se ajuste automáticamente */
 }
 

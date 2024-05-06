@@ -84,18 +84,10 @@ $nombreUsuario = $row['nombre'];
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                    <a href="./registrar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="useregistro" style="filter: invert(100%);margin-right: 10px;" />
                         <span>REGISTRAR USUARIO</span>
                     </a>
-                    <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                        <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
@@ -149,7 +141,7 @@ $nombreUsuario = $row['nombre'];
         <div class="container mt-5" >
         
                     <div class="row justify-content-center">
-                        <div class="col-md-8  p-4 rounded shadow" style="background-color: #6372FF;">
+                        <div class="col-md-8 bg-primary p-4 rounded shadow">
                         <h3 class="text-center text-white">Formulario de Modificar Usuario</h3>
                         
                         <form method="POST" action="">
@@ -161,15 +153,18 @@ $nombreUsuario = $row['nombre'];
                                     
                                     $nombre_modificar = obtener_nombre($ci_new);
                                     $apellido_modificar = obtener_apellido($ci_new);
-                                    $ci_modificar = obtener_correo($ci_new);
+                                    $carrera_modificar = obtener_carrera($ci_new);
+                                    $materia_modificar = obtener_materia($ci_new);
                                     
                                     if($_SERVER["REQUEST_METHOD"] == "POST"){
-                                        if (!empty($_POST['nombre']) && !empty($_POST['apellido']) ) { 
+                                        if (!empty($_POST['nombre']) && !empty($_POST['apellido']) && !empty($_POST['carrera']) && !empty($_POST['materia'])) { 
                                             $nombre = $_POST['nombre'];
                                             $apellido = $_POST['apellido'];
+                                            $carrera = $_POST['carrera'];
+                                            $materias = $_POST['materia'];
                                                                         
                                             // Realiza la actualización en la base de datos
-                                            $sql = "UPDATE usuarios SET nombre='$nombre', apellido='$apellido' WHERE ci='$ci_new'";
+                                            $sql = "UPDATE usuarios SET nombre='$nombre', apellido='$apellido', carrera='$carrera', materias='$materias' WHERE ci='$ci_new'";
                                             
                                             $conexion = new mysqli('localhost', 'root', '', 'reservasumss1');
                                             // Ejecuta la consulta
@@ -215,20 +210,19 @@ $nombreUsuario = $row['nombre'];
                                 <label for="apellido" class="form-label text-white">Apellido:</label>
                                 <input type="text" class="form-control" id="apellido" name="apellido" placeholder=<?php echo $apellido_modificar?>>
                             </div>
-                            <div class="mb-3">
-                            <label for="Materia" class="form-label text-white">Materia:</label>
-                            <input type="text" class="form-control" placeholder= "Programacion 1">
                             </div>
                             <div class="mb-3">
-                            <label for="Carrera" class="form-label text-white">Carrera:</label>
-                            <input type="text" class="form-control" placeholder= "Ingenieria de Sistemas" >
+                            <label for="facultad" class="form-label text-white">Materia:</label>
+                            <input type="text" class="form-control" id="materia" name="materia" placeholder=<?php echo $materia_modificar?>>
                             </div>
+                            <div class="mb-3">
+                            <label for="facultad" class="form-label text-white">Carrera:</label>
+                            <input type="text" class="form-control" id="carrera" name="carrera" placeholder=<?php echo $carrera_modificar?>>
                             </div>
                             <div class="d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary me-2" id="b_boton" name="b_boton">GUARDAR</button>
-    <a href="modificar_usuario.php" class="btn btn-danger ms-2">CANCELAR</a>
-</div>
-
+                            <button type="submit" class="btn btn-primary" id="b_boton" name="b_boton">GUARDAR</button>
+                            <a href="modificar_usuario.php" class="btn btn-primary">CANCELAR</a>
+                            </div>
                             
                         </form>
                         </div>

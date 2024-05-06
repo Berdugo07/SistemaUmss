@@ -24,12 +24,7 @@ $nombreUsuario = $row['nombre'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        .formulario-wrapper {
-            max-height: 400px; /* Ajusta la altura máxima según sea necesario */
-            overflow-y: auto; /* Activa el desplazamiento vertical cuando el contenido exceda la altura máxima */
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -67,7 +62,7 @@ $nombreUsuario = $row['nombre'];
             </div>
             <ul class="ul sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="HomeA.php" class="sidebar-link" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <i class="bi bi-house-door-fill fs-4"></i>
                         <span>INICIO</span>
                     </a>
@@ -79,7 +74,7 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRA AMBIENTE</a>
+                        <a href="RegistrodeAmbiente.php" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRA AMBIENTE</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
@@ -130,20 +125,18 @@ $nombreUsuario = $row['nombre'];
                 </li>
             </ul>
         </aside>
-       
-        <div class="main p-0 d-flex justify-content-center align-items-center" >
-        <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="main p-3">
     <div class="w-75">
-        <div class="modal-content" style="background-color:#5542fa; padding: 20px; border-radius: 10px;">
-        <div class="modal-header d-flex justify-content-center">
-    <h5 class="modal-title text-center" id="exampleModalLabel2" style="font-size: 24px; color: white;">Registrar Ambiente</h5>
-</div>
-            <div class="modal-body p-4" style=" color: white;margin-top:-30px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Registrar Ambiente</h5>
+            </div>
+            <div class="modal-body p-4">
                 <form action="guardar_ambiente.php" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nombre">Nombre del Ambiente</label>
                         <input type="text" class="form-control" id="nombre" name="nombre" required>
-
+                    </div>
                     <div class="form-group">
                         <label for="capacidad">Capacidad Máxima</label>
                         <input type="number" class="form-control" id="capacidad" name="capacidad" required>
@@ -151,52 +144,50 @@ $nombreUsuario = $row['nombre'];
                     <div class="form-group">
                         <label for="ubicacion">Ubicación</label>
                         <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
-                        <div class="piso-periodo">
-                    <div class="form-input">
-                        <label for="piso">Piso</label>
-                        <select class="form-control" id="piso" name="piso" required>
-                            <option value="1">1er Piso</option>
-                            <option value="2">2do Piso</option>
-                            <option value="3">3er Piso</option>
-                            <!-- Agrega más opciones si es necesario -->
+                    </div>
+                    <div class="form-group">
+                        <label for="periodo">Periodo de Examen</label>
+                        <select class="form-control" id="periodo" name="periodo" required>
+                            <option value="primer parcial">Primer Parcial</option>
+                            <option value="segundo parcial">Segundo Parcial</option>
+                            <option value="tercer parcial">Examen final</option>
                         </select>
                     </div>
-                  <div class="form-group">
-    <label for="fecha">Fecha </label>
-    <input type="date" class="form-control" id="fechaInicio" name="fecha" min="<?php echo date('Y-m-d'); ?>" required>
-    
-
-                   
-</div>
+                    <div class="form-group">
+                        <label for="fechaInicio">Fecha de inicio</label>
+                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaFin">Fecha de fin</label>
+                        <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="horario">Horario Disponible</label>
+                        <select class="form-control" id="horario" name="horario" required>
+                            <option value="06:45">06:45</option>
+                            <option value="08:15">08:15</option>
+                            <option value="tercero">09:45</option>
+                            <option value="cuarto">11:15</option>
+                            <option value="quinto">12:45</option>
+                            <option value="sexto">14:15</option>
+                            <option value="septimo">15:45</option>
+                            <option value="octavo">17:15</option>
+                            <option value="noveno">18:45</option>
+                            <option value="decimo">20:15</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="imagen">Seleccionar Imagen</label>
                         <input type="file" class="form-control-file" name="imgAmbiente">
                     </div>
-                    <form action="guardar_aula.php" method="post">
-               <label for="descripcion">Descripción:</label><br>
-        <textarea id="descripcion" name="descripcion"></textarea><br>
-        <input type="submit" value="Guardar">
-    </form>
-                    <div class="form-group" style="text-align: center;">
-    <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Guardar</button>
-    <button type="reset" class="btn btn-danger" style="margin-left: 10px;" onclick="window.location.href='RegistrodeAmbiente.php'">Cancelar</button>
-</div>
-
-                   
-   
-</body>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="reset" class="btn btn-danger">Cancelar</button>
                 </form>
             </div>
-</div>
         </div>
     </div>
 </div>
-<script>
-document.getElementById('fecha').addEventListener('change', function() {
-    var fecha = this.value;
-  
-});
-</script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="../../js/MenuLateral.js"></script>

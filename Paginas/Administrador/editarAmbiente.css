@@ -1,34 +1,25 @@
 /* Estilo para el contenedor del formulario */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 1000px;
-}
-
-.main {
-    max-width: 400px; /* Ancho máximo del formulario */
-    width: 100%; /* Asegura que el formulario no exceda el ancho máximo */
-}
-
 .form-container {
-    background-color: #6372FF;
+    background-color: #6372FF; /* Color de fondo del contenedor */
     color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
+/* Estilo para cada fila del formulario */
 .form-row {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Espacio entre filas */
 }
 
+/* Estilo para etiquetas de campo */
 .form-row label {
-    display: inline-block;
-    width: 150px;
-    margin-right: 10px;
+    display: inline-block; /* Mostrar las etiquetas en línea */
+    width: 150px; /* Ancho fijo para las etiquetas */
+    margin-right: 10px; /* Espacio a la derecha de las etiquetas */
 }
 
+/* Estilo para campos de entrada */
 .form-row input[type="text"] {
-    width: calc(100% - 170px);
+    width: calc(100% - 170px); /* Ancho restante para los campos de entrada */
 }
