@@ -153,6 +153,7 @@
             </div>
         </div>
     </div>
+
     <script>
         function validarFormulario() {
             var email = document.getElementById('exampleInputEmail1').value;
