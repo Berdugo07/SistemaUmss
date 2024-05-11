@@ -54,45 +54,156 @@
             </div>
             <ul class="ul sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="Index.php" class="sidebar-link" style="text-decoration: none;">
                         <i class="bi bi-house-door-fill fs-4"></i>
                         <span>INICIO</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="ListaAmbientesSinRegis.php" class="sidebar-link" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>Lista de Ambientes</span>
+                        <span>AULAS DISPONIBLES</span>
                     </a>
                 </li>
             </ul>
         </aside>
         <div class="main p-3">
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="Img/Foto1.jpeg" class="d-block img-fluid w-100" style="max-height: 90vh;">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="Img/Foto1.jpeg" class="d-block img-fluid w-100"  style="max-height: 90vh;">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
 
-        </div>
-    </div>
+        <div class="filtro-container mb-3 text-center">
+            <!-- Buscar por nombre de Ambiente -->
+    <label for="buscarAmbiente" class="me-2">Buscar Ambiente:</label>
+    <input type="text" id="buscarAmbiente" name="buscarAmbiente" class="me-2" placeholder="Nombre del Ambiente">
+
+    <!-- Filtro de Piso -->
+    <label for="piso" class="me-2">Piso:</label>
+    <select name="piso" id="piso" class="me-2">
+        <option value="todos">Todos</option>
+        <option value="planta_baja">Planta Baja</option>
+        <option value="1er_piso">1er Piso</option>
+        <option value="2do_piso">2do Piso</option>
+        <option value="3er_piso">3er Piso</option>
+    </select>
+
+    <!-- Filtro de Tipo -->
+    <label for="tipo" class="me-2">Tipo:</label>
+    <select name="tipo" id="tipo" class="me-2">
+        <option value="todos">Todos</option>
+        <option value="auditorio">Auditorio</option>
+        <option value="laboratorio">Laboratorio</option>
+        <option value="aula">Aula</option>
+    </select>
+
+    <!-- Filtro de Capacidad -->
+    <label for="capacidad" class="me-2">Capacidad:</label>
+    <select name="capacidad" id="capacidad" class="me-2">
+        <option value="todos">Todos</option>
+        <option value="mayor_a_menor">De mayor a menor</option>
+        <option value="menor_a_mayor">De menor a mayor</option>
+    </select>
+
+    <!-- Botón de Filtrar con icono -->
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-funnel-fill me-1"></i>Filtrar
+    </button>
+</div>
+<style>
+    .card-img-top {
+        width: 100%; /* Ancho máximo del contenedor */
+        height: 200px; /* Altura fija para todas las imágenes */
+        object-fit: cover; /* Escalar la imagen para cubrir el contenedor */
+    }
+    .card-container {
+        margin-left: 50px; /* Ajusta el valor del margen según tu preferencia */
+        margin-right: 50px; /* Ajusta el valor del margen según tu preferencia */
+    }
+    .card {
+        border-radius: 15px; /* Bordes redondeados */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra predeterminada */
+        transition: box-shadow 0.3s ease, transform 0.3s ease; /* Transición suave de la sombra y la transformación */
+    }
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el mouse */
+        transform: translateY(-20px); /* Levanta la tarjeta al pasar el mouse */
+    }
+    @media (min-width: 1545px) {
+        .card-container .col-md-3 {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+
+    @media (max-width: 1545px) {
+        .card-container .col-md-3 {
+            flex: 0 0 33.33%;
+            max-width: 33.33%;
+        }
+    }
+
+    @media (max-width: 1351px) {
+        .card-container .col-md-3 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    @media (max-width: 854px) {
+        .card-container .col-md-3 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+<div class="row mt-4 card-container" style="max-height: 600px; overflow-y: auto;">       
+    <?php
+    // Conexión a la base de datos
+    $host = "localhost";
+    $user = "root";
+    $password = "";
+    $db = "reservasumss1";
+
+    $conexion = new mysqli($host, $user, $password, $db);
+
+    if ($conexion->connect_errno) {
+        echo "Fallo la conexión a la base: " . $conexion->connect_errno;
+    }
+
+    // Consulta para obtener los datos de la tabla "ambientes"
+    $query = "SELECT nombre, capacidad, ubicacion,imgAmbiente FROM ambientes";
+    $resultado = $conexion->query($query);
+
+    // PHP para mostrar los resultados de ambientes
+    if ($resultado->num_rows > 0) {
+        while ($fila = $resultado->fetch_assoc()) {
+            // Mostrar resultados de ambientes
+            ?>
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                <?php if (!empty($fila['imgAmbiente'])) { ?>
+                    <!-- Si hay una imagen registrada, mostrarla -->
+                    <img src="Img/Ambientes/<?php echo $fila['imgAmbiente']; ?>" class="card-img-top" alt="<?php echo $fila['nombre']; ?>">
+                <?php } else { ?>
+                    <!-- Si no hay imagen registrada, mostrar una imagen por defecto -->
+                    <img src="Img/Ambientes/defaultAmbiente.jpg" class="card-img-top" alt="Imagen por defecto">
+                <?php } ?>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $fila['nombre']; ?></h5>
+                        <p class="card-text">Capacidad Máxima: <?php echo $fila['capacidad']; ?></p>
+                        <p class="card-text">Ubicación: <?php echo $fila['ubicacion']; ?></p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AdvertenciaModal">Reservar</button>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    } else {
+        echo "No se encontraron ambientes en la base de datos.";
+    }
+    $conexion->close();
+    ?>
+</div>
+
+</div>
+
 
   <footer class="footer">
         <div class="footer-links">
@@ -153,6 +264,25 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="AdvertenciaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i> Advertencia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="px-lg-5 py-lg-4 p-4 w-100 mb-auto d-flex flex-column align-items-center">
+                    <h1 class="font-weight-bold mb-4" style="color: #03045E; font-size: 28px;">Inicia sesión para reservar</h1>
+                    <p>Para reservar este ambiente, primero necesitas iniciar sesión con tu cuenta.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         function validarFormulario() {
@@ -197,6 +327,8 @@
             }
         }
     </script>
+    
+
 </body>
 
 </html>
