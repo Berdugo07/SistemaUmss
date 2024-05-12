@@ -84,6 +84,12 @@ $nombreUsuario = $row['nombre'];
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a href="./reserva_ambiente.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>RESERVAR AMBIENTE</span>
+                    </a>
+                </li>
             </ul>
         </aside>
         <div class="main p-3">
