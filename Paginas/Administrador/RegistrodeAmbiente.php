@@ -54,7 +54,7 @@ $nombreUsuario = $row['nombre'];
 
     </body>
     <div class="wrapper">
-    <aside id="sidebar">
+        <aside id="sidebar">
             <div class="d-flex">
 
                 <button id="toggle-btn" type="button">
@@ -68,8 +68,8 @@ $nombreUsuario = $row['nombre'];
                         <span>INICIO</span>
                     </a>
                     </li>
-                    <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRO AMBIENTES</span>
                     </a>
@@ -86,29 +86,11 @@ $nombreUsuario = $row['nombre'];
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                    <a href="./registrar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="useregistro" style="filter: invert(100%);margin-right: 10px;" />
                         <span>REGISTRAR USUARIO</span>
                     </a>
-                    <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                        <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
-                        </li>
-                        
-                    </ul>
                 </li>
-                <li class="sidebar-item">
-                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>MODIFICAR CUENTAS DE USUARIO</span>
-                    </a>
-                </li>
-                    
-
-                
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
@@ -116,9 +98,21 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">SOLICITUDES DE RESERVAS</a>
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
                         </li>
                     </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>AMBIENTES DISPONIBLES</span>
+                    </a>
                 </li>
             
                 <li class="sidebar-item">
@@ -127,7 +121,12 @@ $nombreUsuario = $row['nombre'];
                         <span>CALENDARIO</span>
                     </a>
                 </li>
-        
+                <li class="sidebar-item">
+                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>MODIFICAR CUENTA DE USUARIO</span>
+                    </a>
+                </li>
             </ul>
         </aside>
        
@@ -191,6 +190,28 @@ $nombreUsuario = $row['nombre'];
     <!-- SweetAlert2 y Bootstrap Bundle con Popper -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script>
+        function mostrarMensaje(mensaje, icono) {
+            Swal.fire({
+                title: "Registro de ambientes con éxito",
+                text: "Se registraron correctamente los datos",
+                icon: icono,
+                confirmButtonText: "Aceptar"
+            });
+        }
+    </script>
+    <?php
+if (isset($_GET['registro']) && $_GET['registro'] == 'exitoso') {
+    // Verificar si se recibió un parámetro 'registro' con valor 'exitoso' en la URL
+    // Esto indica que el registro fue exitoso y se debe mostrar un mensaje
+?>
+    <script>
+        // Ejecutar la función mostrarMensaje con los parámetros adecuados
+        mostrarMensaje("Se registró el ambiente con éxito", "success");
+    </script>
+<?php
+}
+?>
 </body>
 </html>
+          
