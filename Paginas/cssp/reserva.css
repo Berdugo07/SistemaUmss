@@ -1,0 +1,80 @@
+/* styles.css */
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+   
+}
+
+.container_ambiente {
+    width: 500px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #6360f1;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+}
+
+
+h2 {
+    color: white;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    color: white;
+}
+
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+select {
+    appearance: none; /* Eliminar el estilo predeterminado del selector */
+    -webkit-appearance: none; /* Para navegadores basados en WebKit */
+    -moz-appearance: none; /* Para navegadores basados en Gecko */
+    background: transparent url('https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@6.0.0/font/fontawesome/svgs/solid/caret-down.svg');
+    background-position: calc(100% - 10px) center;
+    background-repeat: no-repeat;
+    background-size: 18px;
+    padding-right: 30px; /* Añadir espacio para el icono */
+    background-color: white;
+}
+
+button {
+    padding: 12px 24px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+/* Estilos para el Paso 3 */
+.step {
+    padding: 20px;
+}
+
+.info-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.info-box h3 {
+    margin-top: 0;
+}
