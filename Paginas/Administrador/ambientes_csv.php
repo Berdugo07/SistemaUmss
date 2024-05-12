@@ -2,13 +2,13 @@
 require_once '../../config/validacion_session.php';
 require_once '../../config/conexion.php';
 
+
 $correo = $_SESSION['user'];
 
 $query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
 $result = $conexion->query($query);
 $row = $result->fetch_assoc();
 $nombreUsuario = $row['nombre'];
-
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ $nombreUsuario = $row['nombre'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -69,13 +69,13 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRO AMBIENTES</span>
                     </a>
                     <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                        <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRO DE AMBIENTE</a>
+                        <a href="RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRO DE AMBIENTE</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
@@ -86,7 +86,7 @@ $nombreUsuario = $row['nombre'];
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRAR USUARIO</span>
                     </a>
@@ -95,7 +95,7 @@ $nombreUsuario = $row['nombre'];
                         <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
                         </li>
                     </ul>
                 </li>
@@ -122,12 +122,12 @@ $nombreUsuario = $row['nombre'];
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>AMBIENTES DISPONIBLES</span>
+                        <span>AULAS DISPONIBLES</span>
                     </a>
                 </li>
             
                 <li class="sidebar-item">
-                    <a href="calendario.php" class="sidebar-link" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
                         <span>CALENDARIO</span>
                     </a>
@@ -140,36 +140,70 @@ $nombreUsuario = $row['nombre'];
                 </li>
             </ul>
         </aside>
-        <div class="main p-3">
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="../../Img/Foto1.jpeg" class="d-block img-fluid w-100 " style="max-height: 90vh;">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="../../Img/Foto1.jpeg" class="d-block img-fluid w-100" style="max-height: 90vh;">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
+        
+        <title>SUBIR ARCHIVO CSV</title>
+    <link rel="stylesheet" type="text/css" href="../cssp/csv.css">
+    <!-- Incluir SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+    function mostrarMensaje(mensaje, icono) {
+    Swal.fire({
+        title: "Mensaje",
+        text: mensaje,
+        icon: icono,
+        confirmButtonText: "Aceptar"
+    });
+}
+        function limpiarambientes() {
+            document.getElementById('ambientesCSV').reset();
+        }
 
-        </div>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ambientes = document.getElementById('ambientesCSV');
+            formulario.addEventListener('submit', function (event) {
+                event.preventDefault();
+                var formData = new FormData(ambientes);
+
+                fetch('../../config/procesarA_csv.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        mostrarMensaje(data.error, 'error');
+                    } else if (data.success) {
+                        mostrarMensaje(data.success, 'success');
+                        limpiarambientes();
+                    } else if (data.errors) {
+                        data.errors.forEach(error => mostrarMensaje(error, 'error'));
+                    }
+                })
+                .catch(error => {
+                    mostrarMensaje('Hubo un error al procesar la solicitud.', 'error');
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="main p-3">
+    <div class="container">
+        <h2>SUBIR ARCHIVO CSV</h2>
+        <form id="ambientesCSV" method="post" action="../../config/procesarA_csv.php" enctype="multipart/form-data">
+            <input type="file" name="archivo_csv" accept=".csv" required>
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">SUBIR CSV</button>
+                <button type="button" class="btn btn-danger" onclick="window.location.href='./HomeA.php'">CANCELAR</button>
+            </div>
+        </form>
     </div>
-    <body>
+</div>
+</body>
     
 
-</body>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
