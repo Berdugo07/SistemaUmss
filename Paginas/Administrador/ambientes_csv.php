@@ -63,22 +63,22 @@ $nombreUsuario = $row['nombre'];
             </div>
             <ul class="ul sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="HomeA.php" class="sidebar-link" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <i class="bi bi-house-door-fill fs-4"></i>
                         <span>INICIO</span>
                     </a>
                     </li>
-                    <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRO AMBIENTES</span>
                     </a>
                     <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <li class="sidebar-item">
-                        <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN AMBIENTE</a>
+                        <li class="sidebar-item">
+                        <a href="RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRO DE AMBIENTE</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
+                            <a href="./ambiente_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
@@ -97,18 +97,11 @@ $nombreUsuario = $row['nombre'];
                         <li class="sidebar-item">
                             <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
                         </li>
-                        
                     </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>MODIFICAR CUENTAS DE USUARIO</span>
-                    </a>
                 </li>
                     
 
-                
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
@@ -116,9 +109,21 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">SOLICITUDES DE RESERVAS</a>
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
                         </li>
                     </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>AULAS DISPONIBLES</span>
+                    </a>
                 </li>
             
                 <li class="sidebar-item">
@@ -127,7 +132,12 @@ $nombreUsuario = $row['nombre'];
                         <span>CALENDARIO</span>
                     </a>
                 </li>
-        
+                <li class="sidebar-item">
+                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>MODIFICAR CUENTA DE USUARIO</span>
+                    </a>
+                </li>
             </ul>
         </aside>
         
@@ -144,15 +154,15 @@ $nombreUsuario = $row['nombre'];
         confirmButtonText: "Aceptar"
     });
 }
-        function limpiarambientes() {
-            document.getElementById('ambientesCSV').reset();
+        function limpiarFormulario() {
+            document.getElementById('formularioCSV').reset();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            var ambientes = document.getElementById('ambientesCSV');
+            var formulario = document.getElementById('formularioCSV');
             formulario.addEventListener('submit', function (event) {
                 event.preventDefault();
-                var formData = new FormData(ambientes);
+                var formData = new FormData(formulario);
 
                 fetch('../../config/procesarA_csv.php', {
                     method: 'POST',
@@ -164,7 +174,7 @@ $nombreUsuario = $row['nombre'];
                         mostrarMensaje(data.error, 'error');
                     } else if (data.success) {
                         mostrarMensaje(data.success, 'success');
-                        limpiarambientes();
+                        limpiarFormulario();
                     } else if (data.errors) {
                         data.errors.forEach(error => mostrarMensaje(error, 'error'));
                     }
@@ -181,7 +191,7 @@ $nombreUsuario = $row['nombre'];
 <div class="main p-3">
     <div class="container">
         <h2>SUBIR ARCHIVO CSV</h2>
-        <form id="ambientesCSV" method="post" action="../../config/procesarA_csv.php" enctype="multipart/form-data">
+        <form id="formularioCSV" method="post" action="../../config/procesarA_csv.php" enctype="multipart/form-data">
             <input type="file" name="archivo_csv" accept=".csv" required>
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">SUBIR CSV</button>
@@ -201,3 +211,6 @@ $nombreUsuario = $row['nombre'];
 </body>
 
 </html>
+
+   
+                  
