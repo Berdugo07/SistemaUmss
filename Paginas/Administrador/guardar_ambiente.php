@@ -1,54 +1,51 @@
 <?php
 require_once '../../config/validacion_session.php';
 require_once '../../config/conexion.php';
-// Conexión a la base de datos (reemplaza los valores con los de tu servidor)
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reservasumss1";
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Verificar si el formulario se ha enviado mediante el método POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verificar la conexión a la base de datos
+    $conn = new mysqli("localhost", "root", "", "reservasumss1");
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
 
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+    // Obtener los datos del formulario
+    $nombre = $_POST['nombre'];
+    $capacidad = $_POST['capacidad'];
+    $ubicacion = $_POST['ubicacion'];
+    $piso = $_POST['piso'];
+    $fecha = $_POST['fecha'];
+    $tipo = $_POST["tipo"];
+    $imgAmbiente = $_FILES["imgAmbiente"];
 
-// Obtener los datos del formulario
-$nombre = $_POST['nombre'];
-$capacidad = $_POST['capacidad'];
-$ubicacion = $_POST['ubicacion'];
-$piso = $_POST['piso'];
+    // Verificar si se subió correctamente el archivo de imagen
+    if (isset($_FILES["imgAmbiente"]) && $_FILES["imgAmbiente"]["error"] === 0) {
+        // Procesar la imagen si es necesario
+        $nombreImagen = $_FILES["imgAmbiente"]["name"];
+        move_uploaded_file($_FILES["imgAmbiente"]["tmp_name"], "../../Img/Ambientes/" . $nombreImagen);
+    } else {
+        echo "Error: no se pudo subir el archivo de imagen.";
+        exit; // Terminar la ejecución del script si hay un error
+    }
 
-$fecha = $_POST['fecha'];
-$descripcion = $_POST['descripcion'];
+    // Insertar los datos en la base de datos
+    $sql = "INSERT INTO ambientes (nombre, capacidad, ubicacion, piso, fecha, tipo, imgAmbiente)
+            VALUES ('$nombre', '$capacidad', '$ubicacion', '$piso', '$fecha', '$tipo', '$nombreImagen')";
 
+    if ($conn->query($sql) === TRUE) {
+        echo "Registro insertado correctamente";
+        // Redirigir al usuario después de la inserción exitosa
+        header("Location: RegistrodeAmbiente.php?registro=exitoso");
+        exit; // Terminar la ejecución del script después de la redirección
+    } else {
+        echo "Error al insertar datos: " . $conn->error;
+    }
 
-$imgAmbiente = $_FILES["imgAmbiente"];
-$nameImagen = $imgAmbiente["name"];
-$tmpImagen = $imgAmbiente["tmp_name"];
-
-
-move_uploaded_file($tmpImagen, "../../Img/Ambientes/" . $nameImagen);
-$sql = "INSERT INTO ambientes (nombre) VALUES ('Ambiente de prueba')";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Registro insertado correctamente";
+    // Cerrar la conexión
+    $conn->close();
 } else {
-// Insertar los datos en la base de datos
-$sql = "INSERT INTO ambientes (nombre, capacidad, ubicacion, piso, fecha, descripcion, imgAmbiente)
-        VALUES ('$nombre', '$capacidad', '$ubicacion', '$piso', '$fecha', '$descripcion','$nameImagen')";
-
-if (isset($_FILES["imgAmbiente"]) && $_FILES["imgAmbiente"]["error"] === 0); {
+    // Si el formulario no se ha enviado mediante el método POST, muestra un mensaje de error o realiza alguna acción adecuada
+    echo "Error: el formulario no se ha enviado correctamente.";
 }
-
-if ($conn->query($sql) === TRUE) {
-    header("Location: RegistrodeAmbiente.php");; // Envía una respuesta al cliente indicando que la operación se completó con éxito
-} else {
-    echo "Erroral insertar datos: " . $sql . "<br>" . $conn->error;
-}
-
-// Cerrar la conexión
-$conn->close();
-}
+?>
