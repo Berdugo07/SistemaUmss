@@ -54,7 +54,7 @@ $nombreUsuario = $row['nombre'];
 
     </body>
     <div class="wrapper">
-    <aside id="sidebar">
+        <aside id="sidebar">
             <div class="d-flex">
 
                 <button id="toggle-btn" type="button">
@@ -136,26 +136,25 @@ $nombreUsuario = $row['nombre'];
     <!-- Incluir SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
-        function mostrarMensaje(mensaje, icono) {
-            Swal.fire({
-                title: "¡Mensaje del Servidor!",
-                text: mensaje,
-                icon: icono,
-                confirmButtonText: "Aceptar"
-            });
-        }
-
-        function limpiarFormulario() {
-            document.getElementById('formularioCSV').reset();
+    function mostrarMensaje(mensaje, icono) {
+    Swal.fire({
+        title: "Mensaje",
+        text: mensaje,
+        icon: icono,
+        confirmButtonText: "Aceptar"
+    });
+}
+        function limpiarambientes() {
+            document.getElementById('ambientesCSV').reset();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            var formulario = document.getElementById('formularioCSV');
+            var ambientes = document.getElementById('ambientesCSV');
             formulario.addEventListener('submit', function (event) {
                 event.preventDefault();
-                var formData = new FormData(formulario);
+                var formData = new FormData(ambientes);
 
-                fetch('../../config/procesar_csv.php', {
+                fetch('../../config/procesarA_csv.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -165,7 +164,7 @@ $nombreUsuario = $row['nombre'];
                         mostrarMensaje(data.error, 'error');
                     } else if (data.success) {
                         mostrarMensaje(data.success, 'success');
-                        limpiarFormulario();
+                        limpiarambientes();
                     } else if (data.errors) {
                         data.errors.forEach(error => mostrarMensaje(error, 'error'));
                     }
@@ -182,7 +181,7 @@ $nombreUsuario = $row['nombre'];
 <div class="main p-3">
     <div class="container">
         <h2>SUBIR ARCHIVO CSV</h2>
-        <form id="formularioCSV" method="post" action="../../config/procesar_csv.php" enctype="multipart/form-data">
+        <form id="ambientesCSV" method="post" action="../../config/procesarA_csv.php" enctype="multipart/form-data">
             <input type="file" name="archivo_csv" accept=".csv" required>
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">SUBIR CSV</button>

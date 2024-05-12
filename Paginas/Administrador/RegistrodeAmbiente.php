@@ -2,6 +2,7 @@
 require_once '../../config/validacion_session.php';
 require_once '../../config/conexion.php';
 
+
 $correo = $_SESSION['user'];
 
 $query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
@@ -24,12 +25,7 @@ $nombreUsuario = $row['nombre'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        .formulario-wrapper {
-            max-height: 400px; /* Ajusta la altura máxima según sea necesario */
-            overflow-y: auto; /* Activa el desplazamiento vertical cuando el contenido exceda la altura máxima */
-        }
-    </style>
+   
 </head>
 
 <body>
@@ -58,7 +54,7 @@ $nombreUsuario = $row['nombre'];
 
     </body>
     <div class="wrapper">
-        <aside id="sidebar">
+    <aside id="sidebar">
             <div class="d-flex">
 
                 <button id="toggle-btn" type="button">
@@ -72,14 +68,17 @@ $nombreUsuario = $row['nombre'];
                         <span>INICIO</span>
                     </a>
                     </li>
-                <li class="sidebar-item">
+                    <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRO AMBIENTES</span>
                     </a>
                     <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN AMBIENTE</a>
+                        </li>
                         <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRA AMBIENTE</a>
+                            <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
@@ -87,11 +86,29 @@ $nombreUsuario = $row['nombre'];
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a href="./registrar_usuario.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="useregistro" style="filter: invert(100%);margin-right: 10px;" />
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
+                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRAR USUARIO</span>
                     </a>
+                    <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                        <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
+                        </li>
+                        
+                    </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>MODIFICAR CUENTAS DE USUARIO</span>
+                    </a>
+                </li>
+                    
+
+                
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
@@ -99,21 +116,9 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
+                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">SOLICITUDES DE RESERVAS</a>
                         </li>
                     </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>AULAS DISPONIBLES</span>
-                    </a>
                 </li>
             
                 <li class="sidebar-item">
@@ -122,12 +127,7 @@ $nombreUsuario = $row['nombre'];
                         <span>CALENDARIO</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>MODIFICAR CUENTA DE USUARIO</span>
-                    </a>
-                </li>
+        
             </ul>
         </aside>
        
@@ -149,57 +149,48 @@ $nombreUsuario = $row['nombre'];
                         <input type="number" class="form-control" id="capacidad" name="capacidad" required>
                     </div>
                     <div class="form-group">
-                        <label for="ubicacion">Ubicación</label>
-                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
-                        <div class="piso-periodo">
-                    <div class="form-input">
-                        <label for="piso">Piso</label>
-                        <select class="form-control" id="piso" name="piso" required>
-                            <option value="1">1er Piso</option>
-                            <option value="2">2do Piso</option>
-                            <option value="3">3er Piso</option>
-                            <!-- Agrega más opciones si es necesario -->
-                        </select>
+                                <label for="ubicacion">Ubicación</label>
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="piso">Piso</label>
+                                <select class="form-control" id="piso" name="piso" required>
+                                    <option value="1">1er Piso</option>
+                                    <option value="2">2do Piso</option>
+                                    <option value="3">3er Piso</option>
+                                    <!-- Agrega más opciones si es necesario -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fecha">Fecha </label>
+                                <input type="date" class="form-control" id="fecha" name="fecha" min="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="imagen">Seleccionar Imagen</label>
+                                <input type="file" class="form-control-file" name="imgAmbiente">
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo">Tipo</label>
+                                <select class="form-control" id="tipo" name="tipo" required>
+                                    <option value="Aula normal">Aula normal</option>
+                                    <option value="Auditorio">Auditorio</option>
+                                    <option value="Laboratorio">Laboratorio</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="text-align: center;">
+                                <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Guardar</button>
+                                <button type="reset" class="btn btn-danger" style="margin-left: 10px;" onclick="window.location.href='RegistrodeAmbiente.php'">Cancelar</button>
+                            </div>
+                        </form>
                     </div>
-                  <div class="form-group">
-    <label for="fecha">Fecha </label>
-    <input type="date" class="form-control" id="fechaInicio" name="fecha" min="<?php echo date('Y-m-d'); ?>" required>
-    
-
-                   
-</div>
-                    <div class="form-group">
-                        <label for="imagen">Seleccionar Imagen</label>
-                        <input type="file" class="form-control-file" name="imgAmbiente">
-                    </div>
-                    <form action="guardar_aula.php" method="post">
-               <label for="descripcion">Descripción:</label><br>
-        <textarea id="descripcion" name="descripcion"></textarea><br>
-        <input type="submit" value="Guardar">
-    </form>
-                    <div class="form-group" style="text-align: center;">
-    <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Guardar</button>
-    <button type="reset" class="btn btn-danger" style="margin-left: 10px;" onclick="window.location.href='RegistrodeAmbiente.php'">Cancelar</button>
-</div>
-
-                   
-   
-</body>
-                </form>
+                </div>
             </div>
-</div>
         </div>
     </div>
-</div>
-<script>
-document.getElementById('fecha').addEventListener('change', function() {
-    var fecha = this.value;
-  
-});
-</script>
 
+    <!-- SweetAlert2 y Bootstrap Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="../../js/MenuLateral.js"></script>
+    
 </body>
-
 </html>

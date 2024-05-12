@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -60,9 +63,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="ListaAmbientesSinRegis.php" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>AULAS DISPONIBLES</span>
+                        <span>LISTA DE AMBIENTES</span>
                     </a>
                 </li>
             </ul>
@@ -71,13 +74,14 @@
 
         <div class="filtro-container mb-3 text-center">
             <!-- Buscar por nombre de Ambiente -->
+            <form method="GET">
     <label for="buscarAmbiente" class="me-2">Buscar Ambiente:</label>
     <input type="text" id="buscarAmbiente" name="buscarAmbiente" class="me-2" placeholder="Nombre del Ambiente">
 
     <!-- Filtro de Piso -->
     <label for="piso" class="me-2">Piso:</label>
     <select name="piso" id="piso" class="me-2">
-        <option value="todos">Todos</option>
+        <option value="Todos">Todos</option>
         <option value="planta_baja">Planta Baja</option>
         <option value="1er_piso">1er Piso</option>
         <option value="2do_piso">2do Piso</option>
@@ -87,7 +91,7 @@
     <!-- Filtro de Tipo -->
     <label for="tipo" class="me-2">Tipo:</label>
     <select name="tipo" id="tipo" class="me-2">
-        <option value="todos">Todos</option>
+        <option value="Todos">Todos</option>
         <option value="auditorio">Auditorio</option>
         <option value="laboratorio">Laboratorio</option>
         <option value="aula">Aula</option>
@@ -96,16 +100,21 @@
     <!-- Filtro de Capacidad -->
     <label for="capacidad" class="me-2">Capacidad:</label>
     <select name="capacidad" id="capacidad" class="me-2">
-        <option value="todos">Todos</option>
-        <option value="mayor_a_menor">De mayor a menor</option>
-        <option value="menor_a_mayor">De menor a mayor</option>
+        <option value="Todos">Todos</option>
+        <option value="DESC">De mayor a menor</option>
+        <option value="ASC">De menor a mayor</option>
     </select>
 
     <!-- Botón de Filtrar con icono -->
-    <button type="submit" class="btn btn-primary">
-        <i class="bi bi-funnel-fill me-1"></i>Filtrar
-    </button>
+    <button type="submit" class="btn btn-primary" id="buscar" name="buscar">
+    <i class="bi bi-funnel-fill me-1"></i>Buscar
+</button>
+            </form>
+
 </div>
+
+<div class="row mt-4 card-container" style="max-height: 600px; overflow-y: auto;" id="resultado_busqueda">       
+    
 <style>
     .card-img-top {
         width: 100%; /* Ancho máximo del contenedor */
@@ -168,7 +177,8 @@
     }
 
     // Consulta para obtener los datos de la tabla "ambientes"
-    $query = "SELECT nombre, capacidad, ubicacion,imgAmbiente FROM ambientes";
+    // Consulta para obtener los datos de la tabla "ambientes" con estado habilitado
+$query = "SELECT nombre, capacidad, ubicacion, imgAmbiente FROM ambientes WHERE estado = 'habilitado'";
     $resultado = $conexion->query($query);
 
     // PHP para mostrar los resultados de ambientes
@@ -201,6 +211,7 @@
     $conexion->close();
     ?>
 </div>
+</div>
 
 </div>
 
@@ -219,8 +230,6 @@
     </footer>
 
      
-    <script src="js/MenuLateral.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
 
     <!--iniciar sesion ventana-->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -326,9 +335,17 @@
                 ocultar.style.display = 'none';
             }
         }
+        $(document).ready(function() {
+                // Esta función se ejecuta cuando se hace clic en el botón de buscar
+                $('#btnBuscar').click(function() {
+                    buscar_filtro();
+                });
+            });
     </script>
     
-
+    <script src="js/MenuLateral.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="Filtro.js"></script>
 </body>
 
 </html>

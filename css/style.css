@@ -254,8 +254,3 @@ footer{
     margin-left: 300px;
    
 }
-    .card-img-top {
-        width: 100%; /* Ancho máximo del contenedor */
-        height: 200px; /* Altura fija para todas las imágenes */
-        object-fit: cover; /* Escalar la imagen para cubrir el contenedor */
-    }

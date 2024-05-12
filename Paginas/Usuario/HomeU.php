@@ -62,25 +62,25 @@ $nombreUsuario = $row['nombre'];
             </div>
             <ul class="ul sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="HomeU.php" class="sidebar-link" style="text-decoration: none;">
                         <i class="bi bi-house-door-fill fs-4"></i>
                         <span>INICIO</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="ListadoDeAmbiente.php" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>AULAS DISPONIBLES</span>
+                        <span>LISTA DE AMBIENTES</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>RESERVAS</span>
+                        <span>MIS RESERVAS</span>
                     </a>
                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">LISTA DE RESERVAS</a>
                         </li>
                     </ul>
                 </li>
