@@ -40,7 +40,6 @@ $nombreUsuario = $row['nombre'];
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="listaDeAmbientesRegistrados.css">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
@@ -49,7 +48,6 @@ $nombreUsuario = $row['nombre'];
         align-items: center;
         }
 
-        /* Estilo del icono de búsqueda */
         #buscarIcono {
             font-size: 1.2em;
             margin-left: 5px;
@@ -147,7 +145,8 @@ $nombreUsuario = $row['nombre'];
                             <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="filter: invert(100%);margin-right: 10px;"/>
                             <span>SOLICITUDES DE RESERVAS</span>
                         </a>
-                    </li>    
+                    </li>
+                    
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link" style="text-decoration: none;">
                             <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
@@ -166,25 +165,24 @@ $nombreUsuario = $row['nombre'];
 
             <div class="main p-3">
                 <div class="container text-center" style="height: 400px; overflow-y: auto;">
-                    <h2 class="lista-title">LISTA DE AMBIENTES REGISTRADOS</h2>
+                    <h2 class="lista-title">SOLICITUD DE RESERVAS DE AMBIENy</h2>
                     <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 300px;">
-                        <input type="text" name="busqueda" placeholder="Buscar por nombre, estado o capacidad" style="width: 100%;">
+                        <input type="text" name="busqueda" placeholder="Buscar por piso, estado o capacidad" style="width: 100%;">
                         <button type="submit" style="display: none;"></button> 
                         <i class="bi bi-search" id="buscarIcono"></i> 
                     </form>
 
-                <table id="tablaAmbientes" class="table table-striped">
+                <table id="tablaSolicitudes" class="table table-striped">
                     <thead>
                                     <tr>
-                                        <th>Imagen</th>
                                         <th>Nombre</th>
                                         <th>Capacidad</th>
-                                        <th>Ubicación</th>
-                                        <th>Piso</th>
                                         <th>Fecha</th>
-                                        <th>Tipo</th>
-                                        <th>Estado</th>
-                                        <th>Modificar</th>
+                                        <th>Horario</th>
+                                        <th>Docente</th>
+                                        <th>Grupo</th>
+                                        <th>Materia</th>
+                                        <th>Accion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -193,8 +191,6 @@ $nombreUsuario = $row['nombre'];
                                             ?>    
                                             <tr>
 
-                                            
-                                            <td><img src="../../Img/Ambientes<?php echo $ambientes[8]; ?>" alt="" width="100"></td>
                                             <td><?php echo $ambientes[1]; ?></td>
                                             <td><?php echo $ambientes[2]; ?></td>
                                             <td><?php echo $ambientes[3]; ?></td>
@@ -202,12 +198,10 @@ $nombreUsuario = $row['nombre'];
                                             <td><?php echo $ambientes[5]; ?></td>
                                             <td><?php echo $ambientes[6]; ?></td>
                                             <td><?php echo $ambientes[7]; ?></td>
-                                            
-                                                
-                                                
+                                        
                                             <td>
-                                                <a href='editarAmbiente.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Editar</a>
-                                            
+                                                <a href='Solicitud.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Aceptar</a>
+                                                <a href='Solicitud.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Rechazar</a>
                                             </td>
                                         </tr>
                                     <?php 
@@ -222,7 +216,6 @@ $nombreUsuario = $row['nombre'];
 <script src="../../js/MenuLateral.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
 <script>
 
 $(document).ready(function(){
@@ -231,14 +224,14 @@ $(document).ready(function(){
         var formData = $(this).serialize();
         $.ajax({
             type: 'GET',
-            url: 'buscar.php',
+            url: 'busqueda.php',
             data: formData,
             dataType: 'json',
             success: function(data){
-                $('#tablaAmbientes tbody').empty();
-                $.each(data, function(index, ambiente){
+                $('#tablaSolicitudes tbody').empty();
+                $.each(data, function(index, solicitudes){
                     
-        $('#tablaAmbientes tbody').append('<tr><td><img src="../../Img/Ambientes/' + ambiente.imagen + '" alt="" width="100"></td><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.descripcion + '</td><td>' + ambiente.estado + '</td><td><a href="editarAmbiente.php?id=' + ambiente.id + '" class="btn btn-primary">Editar</a></td></tr>');    
+        $('#tablaSolicitudes tbody').append('<tr><td><img src="../../Img/Ambientes/' + ambiente.imagen + '" alt="" width="100"></td><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.descripcion + '</td><td>' + ambiente.estado + '</td><td><a href="editarAmbiente.php?id=' + ambiente.id + '" class="btn btn-primary">Editar</a></td></tr>');    
                 });
             }
         });
@@ -251,10 +244,11 @@ $(document).ready(function(){
             url: 'buscar.php', 
             dataType: 'json',
             success: function(data){
-                $('#tablaAmbientes tbody').empty();
+                $('#tablaSolicitudes tbody').empty();
                 $.each(data, function(index, ambiente){
-                    $('#tablaAmbientes tbody').append('<tr><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.estado + '</td></tr>');
+                    $('#tablaSolicitudes tbody').append('<tr><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.horario + '</td><td>' + ambiente.docente + '</td></tr>'+ '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.grupo + '</td><td>' + '</td><td>' + ambiente.materia + '</td><td>' );
                 });
+                    
             }
         });
     });
