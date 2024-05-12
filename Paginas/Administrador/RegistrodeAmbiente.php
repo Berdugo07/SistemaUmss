@@ -69,7 +69,7 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRO AMBIENTES</span>
                     </a>
@@ -116,7 +116,7 @@ $nombreUsuario = $row['nombre'];
                 </li>
             
                 <li class="sidebar-item">
-                    <a href="calendario.php" class="sidebar-link" style="text-decoration: none;">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
                         <span>CALENDARIO</span>
                     </a>
@@ -190,6 +190,27 @@ $nombreUsuario = $row['nombre'];
     <!-- SweetAlert2 y Bootstrap Bundle con Popper -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script>
+        function mostrarMensaje(mensaje, icono) {
+            Swal.fire({
+                title: "Registro de ambientes con éxito",
+                text: "Se registraron correctamente los datos",
+                icon: icono,
+                confirmButtonText: "Aceptar"
+            });
+        }
+    </script>
+    <?php
+if (isset($_GET['registro']) && $_GET['registro'] == 'exitoso') {
+    // Verificar si se recibió un parámetro 'registro' con valor 'exitoso' en la URL
+    // Esto indica que el registro fue exitoso y se debe mostrar un mensaje
+?>
+    <script>
+        // Ejecutar la función mostrarMensaje con los parámetros adecuados
+        mostrarMensaje("Se registró el ambiente con éxito", "success");
+    </script>
+<?php
+}
+?>
 </body>
 </html>
