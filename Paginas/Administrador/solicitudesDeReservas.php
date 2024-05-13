@@ -52,6 +52,31 @@ $nombreUsuario = $row['nombre'];
             font-size: 1.2em;
             margin-left: 5px;
             cursor: pointer;
+
+        }
+        #filtroForm {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        #filtroForm label {
+            margin-right: 10px;
+        }
+
+        #filtros form {
+            margin-right: 10px;
+        }
+
+        #filtros {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Alinea los elementos a la izquierda */
+            margin-bottom: 20px; /* Agrega un margen inferior para separarlos de la tabla */
+        }
+
+        #filtros select, #filtros label {
+            margin-right: 10px; /* Ajusta el espacio entre los elementos */
         }
     </style>
 
@@ -163,94 +188,113 @@ $nombreUsuario = $row['nombre'];
 
             <div class="main p-3">
                 <div class="container text-center" style="height: 400px; overflow-y: auto;">
-                    <h2 class="lista-title">SOLICITUD DE RESERVAS DE AMBIENy</h2>
-                    <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 300px;">
-                        <input type="text" name="busqueda" placeholder="Buscar por piso, estado o capacidad" style="width: 100%;">
-                        <button type="submit" style="display: none;"></button> 
-                        <i class="bi bi-search" id="buscarIcono"></i> 
-                    </form>
-
-                <table id="tablaSolicitudes" class="table table-striped">
-                    <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Capacidad</th>
-                                        <th>Fecha</th>
-                                        <th>Horario</th>
-                                        <th>Docente</th>
-                                        <th>Grupo</th>
-                                        <th>Materia</th>
-                                        <th>Accion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $ambientes_sql=mysqli_query($conexion,"Select * from ambientes");
-                                        while ($ambientes=mysqli_fetch_array($ambientes_sql)){
-                                            ?>    
-                                            <tr>
-
-                                            <td><?php echo $ambientes[1]; ?></td>
-                                            <td><?php echo $ambientes[2]; ?></td>
-                                            <td><?php echo $ambientes[3]; ?></td>
-                                            <td><?php echo $ambientes[4]; ?></td>
-                                            <td><?php echo $ambientes[5]; ?></td>
-                                            <td><?php echo $ambientes[6]; ?></td>
-                                            <td><?php echo $ambientes[7]; ?></td>
-                                        
-                                            <td>
-                                                <a href='Solicitud.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Aceptar</a>
-                                                <a href='Solicitud.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Rechazar</a>
-                                            </td>
-                                        </tr>
-                                    <?php 
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                    <h2 class="lista-title">SOLICITUD DE RESERVAS DE AMBIENTES</h2>
+                    <div id="filtrosContainer" style="display: flex; align-items: center; margin-bottom: 20px;">
+                    <!-- Filtros -->
+                        <div id="filtros" style="display: flex; align-items: center;">
+                            <!-- Filtro de orden -->
+                            <label for="ordenarSelect">Ordenar:</label>
+                            <select id="ordenarSelect" name="ordenar">
+                                <option value="asc">Ascendente</option>
+                                <option value="desc">Descendente</option>
+                            </select>
+                                
+                            <label for="fechasSelect">Filtrar por fecha:</label>
+                            <select id="fechasSelect" name="fechas">
+                                <option value="hoy">Hoy</option>
+                                <option value="semana">Hace una semana</option>
+                                <option value="mes">Hace un mes</option>
+                            </select>
                         </div>
+                    
+
+                        <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 300px;">
+                            <input type="text" name="busqueda" placeholder="Buscar por piso, estado o capacidad" style="width: 100%;">
+                            <button type="submit" style="display: none;"></button> 
+                            <i class="bi bi-search" id="buscarIcono"></i>
+                        </form>
+                    </div>
+
+                    <table id="tablaSolicitudes" class="table table-striped">
+                        <thead>
+                        <tr>
+                                <th>Nombre</th>
+                                <th>Capacidad</th>
+                                <th>Fecha</th>
+                                <th>Horario</th>
+                                <th>Docente</th>
+                                <th>Grupo</th>
+                                <th>Materia</th>
+                                <th>Accion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <?php $ambientes_sql=mysqli_query($conexion,"Select * from ambientes");
+                            while ($ambientes=mysqli_fetch_array($ambientes_sql)){
+                                ?>    
+                                <tr>
+                                    <td><?php echo $ambientes[1]; ?></td>
+                                    <td><?php echo $ambientes[2]; ?></td>
+                                    <td><?php echo $ambientes[3]; ?></td>
+                                    <td><?php echo $ambientes[4]; ?></td>
+                                    <td><?php echo $ambientes[5]; ?></td>
+                                    <td><?php echo $ambientes[6]; ?></td>
+                                    <td><?php echo $ambientes[7]; ?></td>
+                                                        
+                                    <td>
+                                        <a href='Solicitud.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Aceptar</a>
+                                        <a href='Solicitud.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Rechazar</a>
+                                    </td>
+                                </tr>
+                                <?php 
+                            }
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="../../js/MenuLateral.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+    $(document).ready(function(){
+        $('#buscarForm').submit(function(e){
+            e.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'GET',
+                url: 'busqueda.php',
+                data: formData,
+                dataType: 'json',
+                success: function(data){
+                    $('#tablaSolicitudes tbody').empty();
+                    $.each(data, function(index, solicitudes){
 
-$(document).ready(function(){
-    $('#buscarForm').submit(function(e){
-        e.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-            type: 'GET',
-            url: 'busqueda.php',
-            data: formData,
-            dataType: 'json',
-            success: function(data){
-                $('#tablaSolicitudes tbody').empty();
-                $.each(data, function(index, solicitudes){
-                    
-        $('#tablaSolicitudes tbody').append('<tr><td><img src="../../Img/Ambientes/' + ambiente.imagen + '" alt="" width="100"></td><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.descripcion + '</td><td>' + ambiente.estado + '</td><td><a href="editarAmbiente.php?id=' + ambiente.id + '" class="btn btn-primary">Editar</a></td></tr>');    
-                });
-            }
+                        $('#tablaSolicitudes tbody').append('<tr><td><img src="../../Img/Ambientes/' + ambiente.imagen + '" alt="" width="100"></td><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.descripcion + '</td><td>' + ambiente.estado + '</td><td><a href="editarAmbiente.php?id=' + ambiente.id + '" class="btn btn-primary">Editar</a></td></tr>');
+                    });
+                }
+            });
+        });
+
+        $('#resetButton').click(function(){
+            $('#buscarForm')[0].reset();
+            $.ajax({
+                type: 'GET',
+                url: 'buscar.php',
+                dataType: 'json',
+                success: function(data){
+                    $('#tablaSolicitudes tbody').empty();
+                    $.each(data, function(index, ambiente){
+                        $('#tablaSolicitudes tbody').append('<tr><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.horario + '</td><td>' + ambiente.docente + '</td></tr>'+ '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.grupo + '</td><td>' + '</td><td>' + ambiente.materia + '</td><td>' );
+                    });
+
+                }
+            });
         });
     });
-
-    $('#resetButton').click(function(){
-        $('#buscarForm')[0].reset(); 
-        $.ajax({
-            type: 'GET',
-            url: 'buscar.php', 
-            dataType: 'json',
-            success: function(data){
-                $('#tablaSolicitudes tbody').empty();
-                $.each(data, function(index, ambiente){
-                    $('#tablaSolicitudes tbody').append('<tr><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.horario + '</td><td>' + ambiente.docente + '</td></tr>'+ '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.grupo + '</td><td>' + '</td><td>' + ambiente.materia + '</td><td>' );
-                });
-                    
-            }
-        });
-    });
-});
 </script>
+
 </body>
 </html>
