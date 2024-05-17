@@ -1,0 +1,39 @@
+/* Estilo para el fondo y texto de la página */
+.listaDeAmbientesRegistrados { 
+    background-color: #6372FF;
+    color: white;
+    padding: 50 px 20px;
+    border-radius: 10px; 
+}
+
+
+/* Estilo para el título */
+.lista-title {
+    color: white; 
+    background-color: #050971; 
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 0; /* Eliminar margen superior */    
+}
+
+/* Estilo para las celdas de la tabla */
+.table th{
+    background-color: #6372FF; 
+    color: WHITE; 
+}
+/* Estilo para las filas de la tabla */
+.listaDeAmbientesRegistrados table tbody tr {
+    background-color: white; 
+    color: black; 
+}
+/* Estilo para el contenido de las celdas */
+.listaDeAmbientesRegistrados table tbody tr td {
+    background-color: white; 
+    color: black; 
+}
+/* Estilo para las imágenes en la tabla */
+.listaDeAmbientesRegistrados table tbody tr td {
+    max-width: 100px; /* Ajusta el ancho máximo de la imagen */
+    height: 400px; /* Permite que la altura se ajuste automáticamente */
+}
+

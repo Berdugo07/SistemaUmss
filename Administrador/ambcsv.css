@@ -1,0 +1,72 @@
+* Estilo para el contenedor del formulario */
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #5542fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(187, 8, 8, 0.1);
+    text-align: center; /* Centra el contenido */
+}
+
+/* Estilo para el título del formulario */
+h2 {
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Estilo para los campos del formulario */
+input[type="file"] {
+    width: 95%;
+    padding: 30px; /* Aumenta el padding para hacer el campo más grande */
+    margin-bottom: 20px;
+    border: 5px dashed #ccc; /* Cambia el borde a entrecortado y más grueso */
+    border-radius: 5px;
+}
+
+/* Cambia el estilo del borde cuando el campo está enfocado */
+input[type="file"]:focus {
+    border-color: #007bff; /* Cambia el color del borde al enfocar el campo */
+    outline: none; /* Elimina el resplandor predeterminado al enfocar */
+}
+
+/* Cambia el estilo del borde cuando se pasa el mouse sobre el campo */
+input[type="file"]:hover {
+    border-color: #007bff; /* Cambia el color del borde al pasar el mouse sobre el campo */
+}
+
+
+/* Estilo para el grupo de botones */
+.button-group {
+    margin-top: 20px;
+}
+
+/* Estilo para los botones del formulario */
+button[type="submit"],
+button[type="button"] {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px; /* Añade espacio entre los botones */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo específico para el botón de cancelar */
+.btn-cancel {
+    background-color: #dc3545; /* Color rojo para el botón de cancelar */
+}
+
+.btn-cancel:hover {
+    background-color: #c82333; /* Color rojo más oscuro al pasar el mouse */
+}
+
+
