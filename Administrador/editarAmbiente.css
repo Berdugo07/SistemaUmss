@@ -1,0 +1,37 @@
+
+#edit-title {
+    text-align: center;
+    background-color: #6372FF; 
+    padding: 10px;
+    border-radius: 5px;
+    color: white; 
+    margin-bottom: 0;
+}
+
+
+.form-container {
+    background-color: #6372FF; 
+    color: white;
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    margin-top: 0;
+}
+
+
+.form-row {
+    margin-bottom: 20px; 
+}
+
+
+.form-row label {
+    display: inline-block; 
+    width: 150px; 
+    margin-right: 10px;
+}
+
+
+.form-row input[type="text"] {
+    width: calc(100% - 170px); 
+}
+
