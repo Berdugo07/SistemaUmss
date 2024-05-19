@@ -2,7 +2,7 @@
 // Conexión a la base de datos
 
 $host = "localhost";
-$dbname = "reservasumss1"; 
+$dbname = "proyectotis"; 
 $username = "root"; 
 $password = ""; 
 

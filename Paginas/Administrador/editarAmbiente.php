@@ -1,7 +1,7 @@
 <?php
 
 $host = "localhost"; 
-$dbname = "reservasumss1"; 
+$dbname = "proyectotis"; 
 $username = "root"; 
 $password = ""; 
 try {
@@ -15,14 +15,14 @@ try {
 $id = $_GET['id'];
 
 //obtener los detalles del ambiente con el ID proporcionado
-$stmt = $conexion->prepare("SELECT * FROM ambientes WHERE id = :id");
+$stmt = $conexion->prepare("SELECT * FROM AMBIENTE WHERE ID_AMBIENTE = :id");
 $stmt->bindParam(":id", $id);
 $stmt->execute();
 $ambiente = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 //obtener los estados
-$stmtEstado = $conexion->prepare("SELECT * FROM estado");
+$stmtEstado = $conexion->prepare("SELECT * FROM ESTADO");
 $stmtEstado->execute();
 $estados = $stmtEstado->fetchAll(PDO::FETCH_ASSOC);
 
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $estado = $_POST['estado'];
 
     // Actualizar el registro en la bds
-    $stmt = $conexion->prepare("UPDATE ambientes SET ubicacion = :ubicacion, piso= :piso, fecha = :fecha, tipo = :tipo, estado =:estado WHERE id = :id");
+    $stmt = $conexion->prepare("UPDATE AMBIENTE SET ID_UBICACION = :ubicacion,PISO = :piso, FECHA = :fecha, ESTADO = :estado, TIPO =:tipo WHERE ID_AMBIENTE = :id");
     $stmt->bindParam(":ubicacion", $ubicacion);
     $stmt->bindParam(":piso", $piso);
     $stmt->bindParam(":fecha", $fecha);

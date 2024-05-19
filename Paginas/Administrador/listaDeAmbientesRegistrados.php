@@ -2,7 +2,7 @@
 // Conexión a la base de datos
 
 $host = "localhost";
-$dbname = "reservasumss1"; 
+$dbname = "proyectotis"; 
 $username = "root"; 
 $password = ""; 
 
@@ -188,7 +188,7 @@ $nombreUsuario = $row['nombre'];
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $ambientes_sql=mysqli_query($conexion,"Select * from ambientes");
+                                    <?php $ambientes_sql=mysqli_query($conexion,"SELECT * FROM AMBIENTE");
                                         while ($ambientes=mysqli_fetch_array($ambientes_sql)){
                                             ?>    
                                             <tr>

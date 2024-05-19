@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "reservasumss1"; 
+$dbname = "proyectotis"; 
 $username = "root"; 
 $password = ""; 
 
@@ -11,12 +11,12 @@ try {
     echo "Error de conexión: " . $e->getMessage();
 }
 
-$query = "SELECT * FROM ambientes WHERE 1=1";
+$query = "SELECT * FROM AMBIENTE WHERE 1=1";
 $params = [];
 
 if(isset($_GET['busqueda']) && $_GET['busqueda'] !== '') {
     $busqueda = $_GET['busqueda'];
-    $query .= " AND (nombre LIKE ? OR estado LIKE ? OR capacidad LIKE ?)";
+    $query .= " AND (NOMBRE LIKE ? OR ESTADO LIKE ? OR CAPACIDAD LIKE ?)";
     $params[] = "%$busqueda%";
     $params[] = "%$busqueda%";
     $params[] = "%$busqueda%";
