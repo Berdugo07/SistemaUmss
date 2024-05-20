@@ -129,7 +129,11 @@ $nombreUsuario = $row['nombre'];
                 </li>
             </ul>
         </aside>
-       
+        <style>
+            .main {
+                  background-image: linear-gradient(180deg, #8ff3ff 0, #64dbff 25%, #0cc1ed 50%, #00a7db 75%, #0090cb 100%);
+         }
+</style>
         <div class="main p-0 d-flex justify-content-center align-items-center" >
         <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="w-75">
@@ -142,21 +146,22 @@ $nombreUsuario = $row['nombre'];
                     <div class="form-group">
                         <label for="nombre">Nombre del Ambiente</label>
                         <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        <div class="form-group">
+                 <label for="capacidad">Capacidad Máxima</label>
+    <input type="number" class="form-control" id="capacidad" name="capacidad" min="0" max="200" required oninput="if(this.value < 0) this.value = 0; if(this.value > 200) this.value = 200;">
+</div>
 
-                    <div class="form-group">
-                        <label for="capacidad">Capacidad Máxima</label>
-                        <input type="number" class="form-control" id="capacidad" name="capacidad" required>
-                    </div>
-                    <div class="form-group">
-                                <label for="lugar">Ubicacion</label>
-                                <select class="form-control" id="Ubicacion" name="Ubicacion" required>
-                                <option value=""></option>
-                                    <option value="Edificio nuevo">Edificio nuevo</option>
-                                    <option value="Auditorio">Auditorio</option>
-                                    <option value="Laboratorio">Laboratorio</option>
-                                    <!-- Agrega más opciones si es necesario -->
-                                </select>
-                               </div>
+<div class="form-group">
+    <label for="Ubicacion">Ubicación</label>
+    <select class="form-control" id="Ubicacion" name="ubicacion" required>
+        <option value=""></option>
+        <option value="Edificio nuevo">Edificio nuevo</option>
+        <option value="Auditorio">Auditorio</option>
+        <option value="Laboratorio">Laboratorio</option>
+        <!-- Agrega más opciones si es necesario -->
+    </select>
+</div>
+
                             <div class="form-group">
                                 <label for="piso">Piso</label>
                                 <select class="form-control" id="piso" name="piso" required>
@@ -167,11 +172,7 @@ $nombreUsuario = $row['nombre'];
                                     <option value="3er piso">3er Piso</option>
                                     <!-- Agrega más opciones si es necesario -->
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha">Fecha </label>
-                                <input type="date" class="form-control" id="fecha" name="fecha" min="<?php echo date('Y-m-d'); ?>" required>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="tipo">Tipo</label>
                                 <select class="form-control" id="tipo" name="tipo" required>
