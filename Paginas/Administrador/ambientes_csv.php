@@ -5,7 +5,7 @@ require_once '../../config/conexion.php';
 
 $correo = $_SESSION['user'];
 
-$query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
+$query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
 $result = $conexion->query($query);
 $row = $result->fetch_assoc();
 $nombreUsuario = $row['nombre'];
@@ -127,7 +127,7 @@ $nombreUsuario = $row['nombre'];
                 </li>
             
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="./calendario.php" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
                         <span>CALENDARIO</span>
                     </a>
@@ -211,3 +211,6 @@ $nombreUsuario = $row['nombre'];
 </body>
 
 </html>
+
+   
+                  

@@ -7,9 +7,9 @@ if (!empty($_POST['nombre']) && !empty($_POST['apellido']) && !empty($_POST['fac
     $facultad = $_POST['facultad'];
                                 
     // Realiza la actualización en la base de datos
-    $sql = "UPDATE usuarios SET nombre='$nombre', apellido='$apellido' WHERE ci='$ci_modifi'";
+    $sql = "UPDATE usuario SET nombre='$nombre', apellido='$apellido' WHERE ci='$ci_modifi'";
     print_r($sql);
-    $conexion = new mysqli('localhost', 'root', '', 'reservasumss1');
+    $conexion = new mysqli('localhost', 'root', '', 'ProyectoTIS');
     // Ejecuta la consulta
     if (mysqli_query($conexion, $sql)) {
         echo "<p>Usuario actualizado con éxito.</p>";

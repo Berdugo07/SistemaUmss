@@ -19,7 +19,7 @@ li {
 
 body {
     font-family: "Inter", sans-serif; 
-    overflow: hidden; 
+   
 }
 .wrapper{
     display: flex;
@@ -260,124 +260,77 @@ footer{
 /*MODIFICADO-REGISTAR AMBIENTE*/
 
 .formulario-resgistro-ambiente {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 60px;
+    width: calc(100% - 70px); /* Ajuste del ancho del formulario teniendo en cuenta el ancho del menú lateral */
+    max-width: 600px; /* Ancho máximo del formulario */
+    margin: 0 auto; /* Margen automático a los lados para centrar el formulario */
+    padding-top: 60px; /* Ajuste del espacio superior para evitar solapamiento con el encabezado */
+    padding-right: 20px; /* Espacio interno a la derecha para separar el formulario del borde derecho */
+    padding-left: 20px; /* Espacio interno a la izquierda para separar el formulario del borde izquierdo */
 }
-
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 400px;
-    padding: 20px;
-    background-color: #5542fa;
-    border-radius: 10px;
+    width: 100%; /* El formulario ocupa todo el ancho disponible */
+    max-width: 800px; /* Ancho máximo del formulario para mantenerlo centrado */
+    padding: 20px; /* Espacio interno para el contenido del formulario */
+    background-color: #5542fa; /* Color de fondo del formulario */
+    border-radius: 10px; /* Bordes redondeados para el formulario */
 }
 
 form h2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 240px;
-    height: 35px;
-    margin-bottom: 10px;
-    font-size: 24px;
-    color: #ffffff;
-    background-color: #210278;
-    border-radius: 5px;
-    cursor: default;
+    width: 100%; /* El título del formulario ocupa todo el ancho disponible */
+    max-width: 240px; /* Ancho máximo del título para mantenerlo centrado */
+    margin-bottom: 10px; /* Espacio inferior entre el título y los campos de entrada */
+    white-space: nowrap; /* Evitar que el texto del título se envuelva */
 }
-
 .campos-entrada {
-    width: 100%;
+    width: 100%; /* Los campos de entrada ocupan todo el ancho disponible */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Los campos de entrada se apilan verticalmente */
 }
 
 .campos-entrada .form-input {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    width: 100%; /* Los campos de entrada ocupan todo el ancho disponible */
+    margin-bottom: 10px; /* Espacio inferior entre los campos de entrada */
 }
 
 .campos-entrada label {
-    font-size: 16px;
-    color: #ffffff;
-    margin: 5px 0px;
+    margin: 5px 0px; /* Espacio alrededor de las etiquetas de los campos de entrada */
 }
 
-.campos-entrada input {
-    width: 100%;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    padding: 0px 10px;
-    font-size: 14px;
-}
-
-.piso-periodo, .fecha {
-    display: flex;
-}
-
-.piso-periodo select, .fecha input {
-    width: 80%;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    font-size: 14px;
-
-}
-
-.form-horario {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    margin-top: 15px;
-}
-
-.form-horario button {
-    width: 144px;
-    height: 30px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.form-imagen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.campos-entrada input,
+.campos-entrada select {
+    width: 100%; /* Los campos de entrada ocupan todo el ancho disponible */
+    height: 30px; /* Altura de los campos de entrada */
+    border-radius: 5px; /* Bordes redondeados para los campos de entrada */
+    border: none; /* Sin borde para los campos de entrada */
+    outline: none; /* Sin contorno al enfocar los campos de entrada */
+    padding: 0px 10px; /* Espacio interno para el contenido de los campos de entrada */
+    font-size: 14px; /* Tamaño de fuente para el texto de los campos de entrada */
 }
 
 .form-imagen input[type="file"] {
-    width: auto;
-    height: 30px;
-    cursor: pointer;
+    width: 100%; /* El campo de carga de imagen ocupa todo el ancho disponible */
+    height: 30px; /* Altura del campo de carga de imagen */
+    margin-top: 10px; /* Espacio superior entre el campo de carga de imagen y los botones */
 }
-
 .form-botones {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between; /* Para distribuir los elementos equitativamente */
 }
 
 .form-botones button {
-    height: 30px;
+    flex: 1; /* Para que ambos botones ocupen el mismo espacio */
+    margin-top: 5px;
     background-color: #210278;
     color: #ffffff;
-    margin-top: 5px;
     font-size: 14px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.form-botones button:first-child {
+    margin-right: 5px; /* Espacio entre los botones */
 }
 
 .form-botones button:hover {

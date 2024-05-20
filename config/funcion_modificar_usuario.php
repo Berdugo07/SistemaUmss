@@ -1,6 +1,7 @@
 <?php
 
 // Include database connection
+$ci_modi=$_GET['ci_mo'];
 // Check if the form has been submitted
 if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['facultad'])) {
     // Get the form data
@@ -9,12 +10,12 @@ if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['facult
     $facultad = $_POST['facultad'];
 
     // Construct the SQL query to update the user information
-    $sql = "UPDATE usuarios SET nombre='.'$nombre'.', apellido='.'$apellido'.' WHERE CI='.'$ci_new'.';";
-    $conexion= new mysqli('localhost','root','','reservasumss1');
+    $sql = "UPDATE usuarios SET nombre='.'$nombre'.', apellido='.'$apellido'.' WHERE ci='.'$ci_modi'.';";
+    $conexion= new mysqli('localhost','root','','ProyectoTIS');
     // Execute the query
     if (mysqli_query($conexion, $sql)) {
         echo "<p>Usuario actualizado con éxito.</p>";
-        header("modificar_cuenta_usuario.php?ci=' . ['CI'] . '");
+        header("../Paginas/Administrador/modificar_cuenta_usuario.php?ci_new='$ci_modi'");
     } else {
         echo "<p>Error al actualizar el usuario: " . mysqli_error($conexion) . "</p>";
     }

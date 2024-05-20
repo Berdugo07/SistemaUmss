@@ -3,7 +3,7 @@ require_once '../../config/validacion_session.php';
 require_once '../../config/conexion.php';
 
 $correo = $_SESSION['user'];
-$query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
+$query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
 $result = $conexion->query($query);
 
 $row = $result->fetch_assoc();
@@ -55,7 +55,7 @@ $nombreUsuario = $row['nombre'];
 
     </body>
     <div class="wrapper">
-        <aside id="sidebar">
+    <aside id="sidebar">
             <div class="d-flex">
 
                 <button id="toggle-btn" type="button">
@@ -68,15 +68,18 @@ $nombreUsuario = $row['nombre'];
                         <i class="bi bi-house-door-fill fs-4"></i>
                         <span>INICIO</span>
                     </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
+                    </li>
+                    <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
                     <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
                         <span>REGISTRO AMBIENTES</span>
                     </a>
                     <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN AMBIENTE</a>
+                        </li>
                         <li class="sidebar-item">
-                        <a href="RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRO DE AMBIENTE</a>
+                            <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
@@ -95,8 +98,18 @@ $nombreUsuario = $row['nombre'];
                         <li class="sidebar-item">
                             <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
                         </li>
+                        
                     </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>MODIFICAR CUENTAS DE USUARIO</span>
+                    </a>
+                </li>
+                    
+
+                
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
@@ -104,21 +117,9 @@ $nombreUsuario = $row['nombre'];
                     </a>
                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
+                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">SOLICITUDES DE RESERVAS</a>
                         </li>
                     </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>AULAS DISPONIBLES</span>
-                    </a>
                 </li>
             
                 <li class="sidebar-item">
@@ -127,17 +128,9 @@ $nombreUsuario = $row['nombre'];
                         <span>CALENDARIO</span>
                     </a>
                 </li>
-                <li class="sidebar-item_modificar">
-                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>MODIFICAR CUENTA DE USUARIO</span>
-                    </a>
-                </li>
+        
             </ul>
         </aside>
-
-
-
 
 
 

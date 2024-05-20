@@ -2,7 +2,7 @@
  $host = "localhost";
  $user = "root";
  $password="";
- $db = "reservasumss1";
+ $db = "ProyectoTIS";
 
  $conexion= new mysqli($host,$user,$password,$db);
 

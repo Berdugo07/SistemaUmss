@@ -5,7 +5,7 @@ require_once '../../config/conexion.php';
 
 $correo = $_SESSION['user'];
 
-$query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
+$query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
 $result = $conexion->query($query);
 $row = $result->fetch_assoc();
 $nombreUsuario = $row['nombre'];
@@ -116,7 +116,7 @@ $nombreUsuario = $row['nombre'];
                 </li>
             
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                    <a href="./calendario.php" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
                         <span>CALENDARIO</span>
                     </a>
@@ -148,15 +148,23 @@ $nombreUsuario = $row['nombre'];
                         <input type="number" class="form-control" id="capacidad" name="capacidad" required>
                     </div>
                     <div class="form-group">
-                                <label for="ubicacion">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" required>
-                            </div>
+                                <label for="lugar">Ubicacion</label>
+                                <select class="form-control" id="Ubicacion" name="Ubicacion" required>
+                                <option value=""></option>
+                                    <option value="Edificio nuevo">Edificio nuevo</option>
+                                    <option value="Auditorio">Auditorio</option>
+                                    <option value="Laboratorio">Laboratorio</option>
+                                    <!-- Agrega más opciones si es necesario -->
+                                </select>
+                               </div>
                             <div class="form-group">
                                 <label for="piso">Piso</label>
                                 <select class="form-control" id="piso" name="piso" required>
-                                    <option value="1">1er Piso</option>
-                                    <option value="2">2do Piso</option>
-                                    <option value="3">3er Piso</option>
+                                <option value=""></option>
+                                <option value="Planta baja">planta baja</option>
+                                    <option value="1er piso">1er Piso</option>
+                                    <option value="2do piso">2do Piso</option>
+                                    <option value="3er piso">3er Piso</option>
                                     <!-- Agrega más opciones si es necesario -->
                                 </select>
                             </div>
@@ -165,16 +173,17 @@ $nombreUsuario = $row['nombre'];
                                 <input type="date" class="form-control" id="fecha" name="fecha" min="<?php echo date('Y-m-d'); ?>" required>
                             </div>
                             <div class="form-group">
-                                <label for="imagen">Seleccionar Imagen</label>
-                                <input type="file" class="form-control-file" name="imgAmbiente">
-                            </div>
-                            <div class="form-group">
                                 <label for="tipo">Tipo</label>
                                 <select class="form-control" id="tipo" name="tipo" required>
-                                    <option value="Aula normal">Aula normal</option>
+                                <option value=""></option>    
+                                <option value="Aula normal">Aula normal</option>
                                     <option value="Auditorio">Auditorio</option>
                                     <option value="Laboratorio">Laboratorio</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="imagen">Seleccionar Imagen</label>
+                                <input type="file" class="form-control-file" name="img_Ambiente">
                             </div>
                             <div class="form-group" style="text-align: center;">
                                 <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Guardar</button>
@@ -214,3 +223,4 @@ if (isset($_GET['registro']) && $_GET['registro'] == 'exitoso') {
 ?>
 </body>
 </html>
+          

@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+body {
+    font-family: "Inter", sans-serif; 
+    overflow: hidden; 
+}
+.wrapper{
+    display: flex;
+    z-index: 1; 
+}
+.main{
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: aliceblue;
+}
+#sidebar{
+    width: 70px;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    background-color: #20287a;
+
+}
+#sidebar.expand {
+    width: 400px;
+    min-width: 260px;
+}
+
+#toggle-btn{
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+#toggle-btn i{
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.sidebar-logo{
+    margin: auto 0;
+}
+
+.sidebar-logo a{
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span{
+    display: none;
+}
+
+.sidebar-nav{
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+a.sidebar-link{
+    padding: .625rem 1.625rem;
+    color: #fff;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left:3px solid transparent ;
+    
+}
+
+.sidebar-link i{
+    font-size: 1.1rem;
+    margin-right: .75rem ;
+}
+
+a.sidebar-link:hover{
+    background-color: rgba(255, 0, 0, 0.082);
+    border-left: 3px solid #ff0101;
+}
+.sidebar-item_modificar{
+    background-color: rgba(255, 0, 0, 0.082);
+    border-left: 3px solid #ff0101;
+}
+
+a.row{
+    background-color: rgb(230, 255, 5);
+
+
+
+}
+
+
+.busqueda{
+    background-color: rgb(10, 35, 179);
+    border-top: #ff0101;
+}
+
+
+
+.sidebar-item{
+    position: relative;
+}
+
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown{
+    position: absolute;
+    top: 0;
+    left: 70px;
+    background-color: #0e2238;
+    padding: 0;
+    min-width: 18rem;
+    display: none;
+}
+
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown{
+    display: block;
+    max-height: 15em;
+    width: 100%;
+    opacity:1;
+}
+
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after{
+    border:solid;
+    border-width: 0  .075rem  .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after{
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+
+footer{
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+    display: flex; 
+    justify-content: flex-end;
+    background-color: #03045E;
+    padding: 20px 0;
+    z-index: 1000;
+}
+
+.about-link {
+    color: #fff;
+    text-decoration: none; 
+    padding: 0 10px; 
+}
+
+.footer-links {
+    padding: 0 15px;
+    display: inline-block;
+}
+
+
+
+.social-links a {
+    display: inline-block;
+    min-height: 40px;
+    width: 40px;
+    margin: 0 10px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+}
+
+.social-links a i {
+    font-size: 30px; 
+}
+
+.header {
+    padding: 20px;
+    height: 80px;
+    background-color: #03045E;
+    padding: 10px;
+    z-index: 1000; 
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo img {
+    margin-right: 10px;
+}
+
+.header-links {
+    margin-left: auto;
+    align-items: center;
+}
+
+.login-link {
+    margin-left: 10px;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.header-links i {
+    color: #fff;
+    font-size: 24px;
+}
+
+.header-logo {
+    margin-left: 50px; 
+}
+.header-links {
+    margin-right: 30px; 
+}
+
+.carousel-item img {
+    max-height: 75vh;
+    width: auto;
+}
+#carouselExampleIndicators {
+    margin-bottom: -50px;
+    margin-top: -20px; 
+    margin-right: -20px;
+    margin-left: -20px;
+}
+
+/* home usuario */
+
+.headerHU{
+    padding: 20px;
+    height: 80px;
+    background-color: #03045E;
+    padding: 10px;
+    z-index: 1000; 
+}
+
+.header-divider {
+    border: none;
+    border-top: 1px solid #ccc; /* Color de la línea */
+    width: 100%; /* Ancho completo */
+    margin: 10px 0; /* Margen arriba y abajo */
+}
+
+.alert-danger {
+    font-size: 15px; /* Tamaño de la fuente del mensaje */
+    padding: 0px 0px; /* Espacio interno del mensaje */
+    margin-left: 300px;
+   
+}

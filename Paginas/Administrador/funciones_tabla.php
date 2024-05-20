@@ -2,7 +2,7 @@
 require '../../config/conexion.php';
 
 $columns = ['nombre','correo','ci'];
-$table = "usuarios";
+$table = "usuario";
 
 $campo = isset($_POST['ci']) ? $conexion->real_escape_string($_POST['ci']) : null;
 

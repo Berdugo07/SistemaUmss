@@ -1,25 +1,37 @@
-/* Estilo para el contenedor del formulario */
+
+#edit-title {
+    text-align: center;
+    background-color: #6372FF; 
+    padding: 10px;
+    border-radius: 5px;
+    color: white; 
+    margin-bottom: 0;
+}
+
+
 .form-container {
-    background-color: #6372FF; /* Color de fondo del contenedor */
+    background-color: #6372FF; 
     color: white;
-    padding: 20px; /* Espaciado interno */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+    margin-top: 0;
 }
 
-/* Estilo para cada fila del formulario */
+
 .form-row {
-    margin-bottom: 20px; /* Espacio entre filas */
+    margin-bottom: 20px; 
 }
 
-/* Estilo para etiquetas de campo */
+
 .form-row label {
-    display: inline-block; /* Mostrar las etiquetas en línea */
-    width: 150px; /* Ancho fijo para las etiquetas */
-    margin-right: 10px; /* Espacio a la derecha de las etiquetas */
+    display: inline-block; 
+    width: 150px; 
+    margin-right: 10px;
 }
 
-/* Estilo para campos de entrada */
+
 .form-row input[type="text"] {
-    width: calc(100% - 170px); /* Ancho restante para los campos de entrada */
+    width: calc(100% - 170px); 
 }
+

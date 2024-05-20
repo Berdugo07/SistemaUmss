@@ -2,7 +2,7 @@
 // buscar.php
 // Conexión a la base de datos
 $host = "localhost";
-$dbname = "reservasumss1"; 
+$dbname = "ProyectoTIS"; 
 $username = "root"; 
 $password = ""; 
 
@@ -14,28 +14,24 @@ try {
 }
 
 // Inicializamos la consulta con un WHERE verdadero
-$query = "SELECT * FROM ambientes WHERE 1=1";
+$query = "SELECT * FROM ambiente WHERE 1=1";
 $params = [];
 
-// Si se envió un valor de búsqueda desde el formulario, buscar en piso, estado o capacidad
 if(isset($_GET['busqueda']) && $_GET['busqueda'] !== '') {
     $busqueda = $_GET['busqueda'];
-    // Añadir condiciones de búsqueda para piso, estado y capacidad
-    $query .= " AND (piso LIKE ? OR estado LIKE ? OR capacidad LIKE ?)";
+    $query .= " AND (nombre LIKE ? OR estado LIKE ? OR capacidad LIKE ?)";
     $params[] = "%$busqueda%";
     $params[] = "%$busqueda%";
     $params[] = "%$busqueda%";
 }
 
-// Preparamos la consulta
+
 $stmt = $conexion->prepare($query);
 
-// Ejecutamos la consulta con los parámetros
 $stmt->execute($params);
 
-// Obtenemos los resultados
-$ambientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$ambiente = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo json_encode($ambientes); // Devolver los resultados como JSON
+echo json_encode($ambiente); 
 
 ?>
