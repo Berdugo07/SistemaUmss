@@ -3,6 +3,7 @@ $host = "localhost";
 $dbname = "proyectotis2";
 $username = "root";
 $password = "";
+
 // Crear conexión
 $conexion = new mysqli($host, $username, $password, $dbname);
 
@@ -11,17 +12,18 @@ if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-// Consulta para obtener las solicitudes de reserva
-$query = "SELECT r.ID_RESERVA, r.MOTIVO, r.ESTADO, a.NOMBRE AS NOMBRE_AMBIENTE, r.ID_AMBIENTE
-          FROM reserva r
-          INNER JOIN ambiente a ON r.ID_AMBIENTE = a.ID_AMBIENTE";
-$resultado = $conexion->query($query);
+// Consulta SQL para obtener todas las solicitudes de reservas
+$sql = "SELECT r.ID_RESERVA, a.NOMBRE AS AMBIENTE, u.NOMBRE AS USUARIO, r.FECHA, h.HORA
+        FROM reserva r
+        JOIN ambiente a ON r.ID_AMBIENTE = a.ID_AMBIENTE
+        JOIN usuario u ON r.ID_USUARIO = u.ID_USUARIO
+        JOIN horario h ON r.ID_HORARIO = h.ID_HORARIO";
 
-if ($resultado) {
-    // Si la consulta se ejecuta correctamente
-    if ($resultado->num_rows > 0) {
-        // Si hay al menos una solicitud de reserva
+$resultado = $conexion->query($sql);
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,35 +181,40 @@ if ($resultado) {
                                 <th>Estado</th>
                                 <th>Accion</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                        <?php
+                    </thead>
+                    <tbody>
+                    <?php
+                    if ($resultado && $resultado->num_rows > 0) {
                         while ($fila = $resultado->fetch_assoc()) {
-                        ?>    
+                    ?>    
                         <tr>    
-                                            <td><?php echo $fila[1]; ?></td>
-                                            <td><?php echo $fila[2]; ?></td>
-                                            <td><?php echo $fila[3]; ?></td>
-                                            <td><?php echo $fila[4]; ?></td>
-                                            <td><?php echo $fila[5]; ?></td>
-                                            <td><?php echo $fila[6]; ?></td>
-                                            <td><?php echo $fila[7]; ?></td>
-                                            <td><?php echo $fila[8]; ?></td>
+                            <td><?php echo $fila[1]; ?></td>
+                            <td><?php echo $fila[2]; ?></td>
+                            <td><?php echo $fila[3]; ?></td>
+                            <td><?php echo $fila[4]; ?></td>
+                            <td><?php echo $fila[5]; ?></td>
+                            <td><?php echo $fila[6]; ?></td>
+                            <td><?php echo $fila[7]; ?></td>
+                            <td><?php echo $fila[8]; ?></td>
                                         
-                                            <td>
-                                                <a href='Solicitud.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Aceptar</a>
-                                                <a href='Solicitud.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Rechazar</a>
+                            <td>
+                                <a href='Solicitud.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Aceptar</a>
+                                <a href='Solicitud.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Rechazar</a>
 
-                                            </td>
-                                        </tr>
-                                    <?php 
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                            </td>
+                        </tr>
+                    <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>No hay solicitudes de reservas.</td></tr>";
+                    } 
+                            
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="../../js/MenuLateral.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
