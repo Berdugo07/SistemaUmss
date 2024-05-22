@@ -25,14 +25,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Insertar datos en la tabla ambientes
                         $nombre = $datos[1];
                         $capacidad = $datos[2];
-                        $ubicacion = $datos[3];
-                        $piso = $datos[4];
-                        $fecha = $datos[5];
-                        $tipo = $datos[6];
-                        $imagenAmbiente = $datos[7];
-
+                        $fecha = $datos[3];
+                        $tipo = $datos[4];
+                        $imagenAmbiente = $datos[5];
+// Insertar los datos en la tabla ubicación 
+$lugar = $datos[1];
+$piso = $datos[2];
                         // Insertar datos en la tabla ambientes
-                        $sql = "INSERT INTO ambientes (nombre, capacidad, ubicacion, piso, fecha, tipo, imgAmbiente) VALUES ('$nombre', '$capacidad', '$ubicacion', '$piso', $fecha, '$tipo', '$imagenAmbiente')";
+                        $sql = "INSERT INTO ambiente (nombre, capacidad, fecha, tipo, imgAmbiente) VALUES ('$nombre', '$capacidad',  $fecha, '$tipo', '$imagenAmbiente')";
+                        $sql = "INSERT INTO ubicación (lugar, piso) VALUES ('$lugar',  '$piso')";
 
                         if ($conexion->query($sql) === TRUE) {
                             $successCount++;
@@ -43,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $fila++;
                 }
                 fclose($gestor);
-                $response['success'] = "Se registrar on correctamente $successCount ambientes.";
+                $response['success'] = "Se registrar on correctamente $successCount ambiente.";
                 if (!empty($errorMessages)) {
                     $response['errors'] = $errorMessages;
                 }

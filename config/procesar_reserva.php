@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    // Preparar y ejecutar la consulta SQL para insertar los datos en la tabla reserva_ambiente
    //'$nombreAmbiente', $capacidad, ---nombreAmbiente, capacidad, 
-   $sql = "INSERT INTO reservas (nombreDocente, correo, tipoActividad, materia, grupo, fecha, hora) VALUES ('$nombre $apellido', '$correo', '$tipoActividad', '$materia', '$grupo', '$fecha', '$hora')";
+   $sql = "INSERT INTO reserva (nombreDocente, correo, tipoActividad, materia, grupo, fecha, hora) VALUES ('$nombre $apellido', '$correo', '$tipoActividad', '$materia', '$grupo', '$fecha', '$hora')";
 
    if ($conexion->query($sql) === TRUE) {
        echo "Los datos se han guardado correctamente.";

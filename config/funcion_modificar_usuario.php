@@ -11,7 +11,7 @@ if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['facult
 
     // Construct the SQL query to update the user information
     $sql = "UPDATE usuarios SET nombre='.'$nombre'.', apellido='.'$apellido'.' WHERE ci='.'$ci_modi'.';";
-    $conexion= new mysqli('localhost','root','','reservasumss1');
+    $conexion= new mysqli('localhost','root','','ProyectoTIS');
     // Execute the query
     if (mysqli_query($conexion, $sql)) {
         echo "<p>Usuario actualizado con éxito.</p>";

@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $rol_id = $datos[7];
 
                         // Verificar si el correo electrónico ya está registrado
-                        $query = "SELECT COUNT(*) AS count FROM usuarios WHERE correo = '$correo'";
+                        $query = "SELECT COUNT(*) AS count FROM usuario WHERE correo = '$correo'";
                         $result = $conexion->query($query);
                         $row = $result->fetch_assoc();
                         if ($row['count'] > 0) {
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
 
                         // Insertar datos en la tabla usuarios
-                        $sql = "INSERT INTO usuarios (nombre, apellido, ci, correo, contrasena, materias, carrera, rol_id) VALUES ('$nombre', '$apellido', '$ci', '$correo', '$contrasena', '$materias', '$carrera', '$rol_id')";
+                        $sql = "INSERT INTO usuario (nombre, apellido, ci, correo, contrasena, materias, carrera, id_rol) VALUES ('$nombre', '$apellido', '$ci', '$correo', '$contrasena', '$materias', '$carrera', '$id_rol')";
 
                         if ($conexion->query($sql) === TRUE) {
                             $successCount++;

@@ -1,48 +1,47 @@
 <?php
+$host = "localhost";
+$dbname = "proyectotis";
+$username = "root";
+$password = "";
 
-$host = "localhost"; 
-$dbname = "proyectotis"; 
-$username = "root"; 
-$password = ""; 
 try {
     $conexion = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch(PDOException $e) {
-    echo "Error de conexión: " . $e->getMessage();
+} catch(PDOException $e) {
+    echo "Error de conexi&#65533;n: " . $e->getMessage();
 }
 
+$id = $_GET['id'] ?? '';
 
-$id = $_GET['id'];
+if ($id) {
+    // obtener los detalles del ambiente con el ID proporcionado
+    $stmt = $conexion->prepare("SELECT * FROM ambiente WHERE ID_AMBIENTE = :id");
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $ambiente = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//obtener los detalles del ambiente con el ID proporcionado
-$stmt = $conexion->prepare("SELECT * FROM AMBIENTE WHERE ID_AMBIENTE = :id");
-$stmt->bindParam(":id", $id);
-$stmt->execute();
-$ambiente = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$ambiente) {
+        echo "No se encontr&#65533; el ambiente.";
+        exit();
+    }
+}
 
-
-//obtener los estados
-$stmtEstado = $conexion->prepare("SELECT * FROM ESTADO");
-$stmtEstado->execute();
-$estados = $stmtEstado->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre'];
     $capacidad = $_POST['capacidad'];
     $ubicacion = $_POST['ubicacion'];
     $piso = $_POST['piso'];
-    $fecha = $_POST['fecha'];
     $tipo = $_POST['tipo'];
     $estado = $_POST['estado'];
 
     // Actualizar el registro en la bds
-    $stmt = $conexion->prepare("UPDATE AMBIENTE SET ID_UBICACION = :ubicacion,PISO = :piso, FECHA = :fecha, ESTADO = :estado, TIPO =:tipo WHERE ID_AMBIENTE = :id");
+    $stmt = $conexion->prepare("UPDATE ambiente SET UBICACION = :ubicacion,PISO = :piso, ESTADO = :estado, TIPO =:tipo WHERE ID_AMBIENTE = :id");
     $stmt->bindParam(":ubicacion", $ubicacion);
     $stmt->bindParam(":piso", $piso);
-    $stmt->bindParam(":fecha", $fecha);
     $stmt->bindParam(":tipo", $tipo);
     $stmt->bindParam(":estado", $estado);
-    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     $stmt->execute();
 
     header("Location: listaDeAmbientesRegistrados.php");
@@ -50,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,23 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="editarAmbiente.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
-    <style>
-
-        .container {
-            margin-top: 50px; 
-        }
-
-        .form-control {
-            margin-bottom: 20px;
-        }
-        .btn-primary {
-            margin-top: 20px; 
-        }
-        .scroll-container {
-            max-height: 70vh; 
-            overflow-y: auto;
-        }
-    </style>
 </head>
 <body>
 <header class="headerHU">
@@ -112,84 +93,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     
 <div class="wrapper">
-    <aside id="sidebar">
-        <div class="d-flex">
+<aside id="sidebar">
+            <div class="d-flex">
 
-            <button id="toggle-btn" type="button">
-                <i class="lni lni-menu"></i>
-            </button>
-        </div>
-        <ul class="ul sidebar-nav">
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link" style="text-decoration: none;">
-                    <i class="bi bi-house-door-fill fs-4"></i>
-                    <span>INICIO</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="RegistrarA" style="text-decoration: none;">
-                <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
-                    <span>REGISTRAR AMBIENTE</span>
-                </a>
-                <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <button id="toggle-btn" type="button">
+                    <i class="lni lni-menu"></i>
+                </button>
+            </div>
+            <ul class="ul sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="HomeA.php" class="sidebar-link" style="text-decoration: none;">
+                        <i class="bi bi-house-door-fill fs-4"></i>
+                        <span>INICIO</span>
+                    </a>
+                    </li>
                     <li class="sidebar-item">
-                            <a href="registrar_ambiente.php" class="sidebar-link" style="text-decoration: none;">REGISTRO DE AMBIENTE</a>
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                        <span>REGISTRO AMBIENTES</span>
+                    </a>
+                    <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN AMBIENTE</a>
                         </li>
-                            <li class="sidebar-item">
+                        <li class="sidebar-item">
+                            <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
+                        </li>
+                        <li class="sidebar-item">
                             <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
                         </li>
-                </ul>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="useregistro" style="filter: invert(100%);margin-right: 10px;" />
-                    <span>REGISTRAR USUARIO</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
-                    <span>RESERVAS</span>
-                </a>
-                <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
-                    <span>AULAS DISPONIBLES</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement"/>
-                    <span>SOLICITUDES DE RESERVAS</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
-                    <span>CALENDARIO</span>
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
-                    <span>MODIFICAR CUENTA DE USUARIO</span>
-                </a>
-            </li>
-        </ul>
-    </aside>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
+                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                        <span>REGISTRAR USUARIO</span>
+                    </a>
+                    <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                        <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>MODIFICAR CUENTAS DE USUARIO</span>
+                    </a>
+                </li>
+                    
 
+                
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>RESERVAS</span>
+                    </a>
+                    <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">SOLICITUDES DE RESERVAS</a>
+                        </li>
+                    </ul>
+                </li>
+            
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>CALENDARIO</span>
+                    </a>
+                </li>
+        
+            </ul>
+        </aside>
 
 
         <div class="main p-3">
@@ -199,45 +178,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="" method="post">
                     <div class="form-row">
                         <label for="nombre">Nombre:</label>
-                        <span><input type="text" id="nombre" name="nombre" value="<?php echo $ambiente['nombre']; ?>"readonly>
+                        <input type="text" id="nombre" name="nombre" value="<?php echo isset($ambiente['NOMBRE']) ? htmlspecialchars($ambiente['NOMBRE']) : ''; ?>" readonly>
                     </div>
 
                     <div class="form-row">
                         <label for="capacidad">Capacidad:</label>
-                        <input type="text" id="capacidad" name="capacidad" value="<?php echo $ambiente['capacidad']; ?>"readonly>
+                        <input type="text" id="capacidad" name="capacidad" value="<?php echo isset($ambiente['CAPACIDAD']) ? htmlspecialchars($ambiente['CAPACIDAD']) : ''; ?>" readonly>
                     </div>
-                    
+
                     <div class="form-row">
-                        <label for="ubicacion">Ubicación:</label>
-                        <input type="text" id="ubicacion" name="ubicacion" value="<?php echo $ambiente['ubicacion']; ?>">
+                        <label for="ubicacion">Ubicaci&#65533;n:</label>
+                        <select id="ubicacion" name="ubicacion">
+                            <option value="Edificio nuevo" <?php if($ambiente['UBICACION'] == "edificio nuevo") echo 'selected'; ?>>Edificio nuevo</option>
+                            <option value="Auditorio" <?php if($ambiente['UBICACION'] == "auditorio") echo 'selected'; ?>>Auditorio</option>
+                            <option value="Laboratorio" <?php if($ambiente['UBICACION'] == "laboratorio") echo 'selected'; ?>>Laboratorio</option>
+                            
+                        </select> 
                     </div>
 
                     <div class="form-row">
                         <label for="piso">Piso:</label>
-                        <input type="text" id="piso" name="piso" value="<?php echo $ambiente['piso']; ?>">
+                        <select id="piso" name="piso">
+                            <option value="Planta baja" <?php if($ambiente['PISO'] == "Planta baja") echo 'selected'; ?>>Planta baja</option>
+                            <option value="1er piso" <?php if($ambiente['PISO'] == "1er piso") echo 'selected'; ?>>1er piso</option>
+                            <option value="2do piso" <?php if($ambiente['PISO'] == "2do piso") echo 'selected'; ?>>2do piso</option>
+                            <option value="3er piso" <?php if($ambiente['PISO'] == "3er piso") echo 'selected'; ?>>3er piso</option>
+                            
+                        </select> 
                     </div>
-                
-                
-                    <div class="form-row">
-                        <label for="fecha">Fecha:</label>
-                        <input type="date" id="fecha" name="fecha" value="<?php echo $ambiente['fecha']; ?>">
-                    </div>
+    
 
                     <div class="form-row">
                         <label for="tipo">Tipo:</label>
-                        <input type="text" id="tipo" name="tipo" value="<?php echo $ambiente['tipo']; ?>">
-                    
+                        <select id="tipo" name="tipo">
+                            <option value="laboratorio" <?php if($ambiente['TIPO'] == "laboratorio") echo 'selected'; ?>>Laboratorio</option>
+                            <option value="auditorio" <?php if($ambiente['TIPO'] == "auditorio") echo 'selected'; ?>>Auditorio</option>
+                            <option value="aula" <?php if($ambiente['TIPO'] == "aula") echo 'selected'; ?>>Aula</option>
+                            
+                        </select>
                     </div>
 
-                
                     <div class="form-row">
                         <label for="estado">Estado:</label>
                         <select id="estado" name="estado">
-                            <?php foreach ($estados as $estado) { ?>
-                                <option value="<?php echo $estado['id']; ?>" <?php if($ambiente['estado'] == $estado['nombre']) echo 'selected'; ?>><?php echo $estado['nombre']; ?></option>
-                            <?php } ?>
+                            <option value="Habilitado" <?php if($ambiente['ESTADO'] == "Habilitado") echo 'selected'; ?>>Habilitado</option>
+                            <option value="No Habilitado" <?php if($ambiente['ESTADO'] == "No Habilitado") echo 'selected'; ?>>No Habilitado</option>
                         </select>
                     </div>
+                    
                     <div class="form-row d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary btn-block" onclick="cancelar()">Cancelar</button>
                         <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
@@ -273,7 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             } else {
                 swal({
-                    title: "¡Cambios guardados!",
+                    title: "&#65533;Cambios guardados!",
                     text: "Los cambios han sido guardados exitosamente.",
                     icon: "success",
                     button: "Aceptar"
@@ -298,3 +286,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+	

@@ -1,30 +1,36 @@
 <?php
 // Conexión a la base de datos
-
 $host = "localhost";
-$dbname = "proyectotis"; 
-$username = "root"; 
-$password = ""; 
-
+$dbname = "proyectotis";
+$username = "root";
+$password = "";
 
 try {
     $conexion = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch(PDOException $e) {
-    echo "Error de conexión: " . $e->getMessage();
+} catch(PDOException $e) {
+    die("Error de conexión: " . $e->getMessage());
 }
 
-
-require_once '../../config/validacion_session.php';
-require_once '../../config/conexion.php';
-
+session_start();
+if (!isset($_SESSION['user'])) {
+    die("Usuario no encontrado.");
+}
 $correo = $_SESSION['user'];
 
-$query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
-$result = $conexion->query($query);
-$row = $result->fetch_assoc();
-$nombreUsuario = $row['nombre'];
+try {
+    $query = "SELECT NOMBRE FROM usuario WHERE CORREO = :correo";
+    $stmt = $conexion->prepare($query);
+    $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
+    $stmt->execute();
 
+    $nombreUsuario = $stmt->fetchColumn();
+    if (!$nombreUsuario) {
+        die("Usuario no encontrado.");
+    }
+} catch (Exception $e) {
+    die("Error: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,7 +149,7 @@ $nombreUsuario = $row['nombre'];
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" style="text-decoration: none;">
+                        <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">
                             <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="filter: invert(100%);margin-right: 10px;"/>
                             <span>SOLICITUDES DE RESERVAS</span>
                         </a>
@@ -181,34 +187,25 @@ $nombreUsuario = $row['nombre'];
                                         <th>Capacidad</th>
                                         <th>Ubicación</th>
                                         <th>Piso</th>
-                                        <th>Fecha</th>
                                         <th>Tipo</th>
                                         <th>Estado</th>
                                         <th>Modificar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $ambientes_sql=mysqli_query($conexion,"SELECT * FROM AMBIENTE");
-                                        while ($ambientes=mysqli_fetch_array($ambientes_sql)){
-                                            ?>    
-                                            <tr>
-
-                                            
-                                            <td><img src="../../Img/Ambientes<?php echo $ambientes[8]; ?>" alt="" width="100"></td>
-                                            <td><?php echo $ambientes[1]; ?></td>
-                                            <td><?php echo $ambientes[2]; ?></td>
-                                            <td><?php echo $ambientes[3]; ?></td>
-                                            <td><?php echo $ambientes[4]; ?></td>
-                                            <td><?php echo $ambientes[5]; ?></td>
-                                            <td><?php echo $ambientes[6]; ?></td>
-                                            <td><?php echo $ambientes[7]; ?></td>
-                                            
-                                                
-                                                
-                                            <td>
-                                                <a href='editarAmbiente.php?id=<?php echo $ambientes['id']; ?>' class='btn btn-primary'>Editar</a>
-                                            
-                                            </td>
+                                    <?php 
+                                    $query = $conexion->query("SELECT * FROM ambiente");
+                                    while ($ambiente = $query->fetch(PDO::FETCH_ASSOC)) {
+                                    ?>    
+                                        <tr>
+                                            <td><img src="../../Img/Ambientes/<?php echo htmlspecialchars($ambiente['IMG_AMBIENTE']); ?>" alt="" width="100"></td>
+                                            <td><?php echo htmlspecialchars($ambiente['NOMBRE']); ?></td>
+                                            <td><?php echo htmlspecialchars($ambiente['CAPACIDAD']); ?></td>
+                                            <td><?php echo htmlspecialchars($ambiente['UBICACION']); ?></td>
+                                            <td><?php echo htmlspecialchars($ambiente['PISO']); ?></td>
+                                            <td><?php echo htmlspecialchars($ambiente['TIPO']); ?></td>
+                                            <td><?php echo htmlspecialchars($ambiente['ESTADO']); ?></td>
+                                            <td><a href='editarAmbiente.php?id=<?php echo htmlspecialchars($ambiente['ID_AMBIENTE']); ?>' class='btn btn-primary'>Editar</a></td>
                                         </tr>
                                     <?php 
                                     }
@@ -224,7 +221,6 @@ $nombreUsuario = $row['nombre'];
 
 
 <script>
-
 $(document).ready(function(){
     $('#buscarForm').submit(function(e){
         e.preventDefault();
@@ -237,28 +233,17 @@ $(document).ready(function(){
             success: function(data){
                 $('#tablaAmbientes tbody').empty();
                 $.each(data, function(index, ambiente){
-                    
-        $('#tablaAmbientes tbody').append('<tr><td><img src="../../Img/Ambientes/' + ambiente.imagen + '" alt="" width="100"></td><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.fecha + '</td><td>' + ambiente.descripcion + '</td><td>' + ambiente.estado + '</td><td><a href="editarAmbiente.php?id=' + ambiente.id + '" class="btn btn-primary">Editar</a></td></tr>');    
+                    $('#tablaAmbientes tbody').append('<tr><td><img src="../../Img/Ambientes/' + ambiente.IMAGEN + '" alt="" width="100"></td><td>' + ambiente.NOMBRE + '</td><td>' + ambiente.CAPACIDAD + '</td><td>' + ambiente.UBICACION + '</td><td>' + ambiente.PISO + '</td><td>' + ambiente.TIPO + '</td><td>' + ambiente.ESTADO + '</td><td><a href="editarAmbiente.php?id=' + ambiente.ID_AMBIENTE + '" class="btn btn-primary">Editar</a></td></tr>');
                 });
             }
         });
     });
 
-    $('#resetButton').click(function(){
-        $('#buscarForm')[0].reset(); 
-        $.ajax({
-            type: 'GET',
-            url: 'buscar.php', 
-            dataType: 'json',
-            success: function(data){
-                $('#tablaAmbientes tbody').empty();
-                $.each(data, function(index, ambiente){
-                    $('#tablaAmbientes tbody').append('<tr><td>' + ambiente.nombre + '</td><td>' + ambiente.capacidad + '</td><td>' + ambiente.ubicacion + '</td><td>' + ambiente.piso + '</td><td>' + ambiente.estado + '</td></tr>');
-                });
-            }
-        });
+    $('#buscarIcono').click(function(){
+        $('#buscarForm').submit();
     });
 });
 </script>
+
 </body>
 </html>

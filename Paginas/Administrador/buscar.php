@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "proyectotis"; 
+$dbname = "proyectotis1"; 
 $username = "root"; 
 $password = ""; 
 
@@ -11,24 +11,20 @@ try {
     echo "Error de conexión: " . $e->getMessage();
 }
 
-$query = "SELECT * FROM AMBIENTE WHERE 1=1";
+$query = "SELECT * FROM ambiente WHERE 1=1";
 $params = [];
 
 if(isset($_GET['busqueda']) && $_GET['busqueda'] !== '') {
     $busqueda = $_GET['busqueda'];
-    $query .= " AND (NOMBRE LIKE ? OR ESTADO LIKE ? OR CAPACIDAD LIKE ?)";
-    $params[] = "%$busqueda%";
-    $params[] = "%$busqueda%";
-    $params[] = "%$busqueda%";
+    // Modificamos la consulta para que busque en los campos deseados
+    $query .= " AND (NOMBRE LIKE :busqueda OR ESTADO LIKE :busqueda OR CAPACIDAD LIKE :busqueda)";
+    $params['busqueda'] = "%$busqueda%";
 }
 
-
 $stmt = $conexion->prepare($query);
-
 $stmt->execute($params);
 
 $ambientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode($ambientes); 
-
 ?>

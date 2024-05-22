@@ -6,35 +6,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener datos del formulario
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $ci = $_POST['ci'];
+    $ci = $_POST['ci']; // Obtener el valor del campo CI
     $correo = $_POST['correo'];
-    $contrasena = password_hash($_POST['contrasena'], PASSWORD_BCRYPT); // Asegúrate de usar password_hash para mayor seguridad
+    $contrasena = $_POST['contrasena'];
+    $materias = $_POST['materias'];
+    $carrera = $_POST['carrera'];
     $rol_id = $_POST['rol'];
 
     // Verificar si el correo electrónico ya está registrado
-    $query = $conexion->prepare("SELECT COUNT(*) AS count FROM USUARIO WHERE CORREO = ?");
-    $query->bind_param("s", $correo);
-    $query->execute();
-    $result = $query->get_result();
+    $query = "SELECT COUNT(*) AS count FROM usuario WHERE correo = '$correo'";
+    $result = $conexion->query($query);
     $row = $result->fetch_assoc();
-
     if ($row['count'] > 0) {
         echo "El correo electrónico ya está registrado.";
         exit; // Detener la ejecución del script
     }
 
     // Insertar datos en la tabla usuarios
-    $sql = $conexion->prepare("INSERT INTO USUARIO (NOMBRE, APELLIDO, CI, CORREO, CONTRASENA, ID_ROL) VALUES (?, ?, ?, ?, ?, ?)");
-    $sql->bind_param("sssssi", $nombre, $apellido, $ci, $correo, $contrasena, $rol_id);
-
-    if ($sql->execute() === TRUE) {
+    $sql = "INSERT INTO usuario (nombre, apellido, ci, correo, contrasena, materias, carrera, id_rol) VALUES ('$nombre', '$apellido', '$ci', '$correo', '$contrasena', '$materias', '$carrera', '$id_rol')";
+   
+    if ($conexion->query($sql) === TRUE) {
         echo "Registro exitoso";
     } else {
-        echo "Error: " . $sql->error;
+        echo "Error: " . $sql . "<br>" . $conexion->error;
     }
 
-    // Cerrar la conexión a la base de datos
-    $sql->close();
+    // Cerrar conexión a la base de datos
     $conexion->close();
 }
 ?>
+

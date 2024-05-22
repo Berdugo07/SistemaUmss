@@ -25,8 +25,10 @@ body {
     display: flex;
     z-index: 1; 
 }
-.main{
-    min-height: 100vh;
+
+.main {
+    min-height: calc(100vh - 100px); /* 100px es la altura del footer */
+    margin-bottom: 100px; /* Igual a la altura del footer */
     width: 100%;
     overflow: hidden;
     transition: all 0.35s ease-in-out;
@@ -219,16 +221,15 @@ footer{
     margin-right: 30px; 
 }
 
-.carousel-item img {
-    max-height: 75vh;
-    width: auto;
-}
 #carouselExampleIndicators {
-    margin-bottom: -50px;
-    margin-top: -20px; 
-    margin-right: -20px;
-    margin-left: -20px;
+    max-width: 100%; /* Establecer un ancho máximo para el carrusel */
+    margin: 0 auto; /* Centrar el carrusel horizontalmente */
 }
+.carousel-item img {
+    max-width: 100%; /* Hacer que la imagen ocupe el ancho máximo posible */
+    height: auto; /* Permitir que la altura se ajuste automáticamente */
+}
+
 
 /* home usuario */
 
