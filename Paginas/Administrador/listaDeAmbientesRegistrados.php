@@ -143,17 +143,18 @@ try {
                         </ul>
                     </li>
                     <li class="sidebar-item">
+                        <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">
+                            <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="margin-right: 10px;"/>
+                            <span>SOLICITUDES DE RESERVAS</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
                         <a href="#" class="sidebar-link" style="text-decoration: none;">
                             <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/classroom.png" alt="classroom" style="filter: invert(100%);margin-right: 10px;" />
                             <span>AULAS DISPONIBLES</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">
-                            <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="filter: invert(100%);margin-right: 10px;"/>
-                            <span>SOLICITUDES DE RESERVAS</span>
-                        </a>
-                    </li>    
+                       
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link" style="text-decoration: none;">
                             <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />

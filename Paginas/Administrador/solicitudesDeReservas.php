@@ -1,26 +1,56 @@
 <?php
-$host = "localhost";
-$dbname = "proyectotis2";
-$username = "root";
-$password = "";
+require_once '../../config/validacion_session.php';
+require_once '../../config/conexion.php';
 
-// Crear conexión
-$conexion = new mysqli($host, $username, $password, $dbname);
 
-// Verificar la conexión
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+$correo = $_SESSION['user'];
+
+$query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
+$result = $conexion->query($query);
+if (!$result) {
+    die("Error en la consulta del nombre de usuario: " . $conexion->error);
 }
+$row = $result->fetch_assoc();
+$nombreUsuario = $row['nombre'];
 
 // Consulta SQL para obtener todas las solicitudes de reservas
-$sql = "SELECT r.ID_RESERVA, a.NOMBRE AS AMBIENTE, u.NOMBRE AS USUARIO, r.FECHA, h.HORA
+$sql = "SELECT r.ID_RESERVA, a.NOMBRE AS ambiente, u.NOMBRE AS usuario, r.FECHA_RESERVA, h.HORA
         FROM reserva r
         JOIN ambiente a ON r.ID_AMBIENTE = a.ID_AMBIENTE
         JOIN usuario u ON r.ID_USUARIO = u.ID_USUARIO
-        JOIN horario h ON r.ID_HORARIO = h.ID_HORARIO";
+        JOIN horario h ON r.ID_HORARIO = h.ID_HORARIO
+        WHERE 1";
+
+if (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
+    $termino_busqueda = $_GET['busqueda'];
+
+    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $termino_busqueda)) {
+        $sql .= " AND r.FECHA_RESERVA = '$termino_busqueda'";
+    } elseif (is_numeric($termino_busqueda)) {
+        $sql .= " AND a.CAPACIDAD >= $termino_busqueda";
+    } else {
+        $sql .= " AND a.NOMBRE LIKE '%$termino_busqueda%'";
+    }
+}
+
+if (isset($_GET['orden'])) {
+    $orden = $_GET['orden'];
+    $sql .= " ORDER BY r.FECHA_RESERVA $orden";
+}
+
+if (isset($_GET['fecha'])) {
+    $fecha = $_GET['fecha'];
+    if ($fecha == 'hoy') {
+        $sql .= " AND DATE(r.FECHA_RESERVA) = CURDATE()";
+    } elseif ($fecha == 'semana') {
+        $sql .= " AND r.FECHA_RESERVA >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)";
+    }
+}
 
 $resultado = $conexion->query($sql);
-
+if (!$resultado) {
+    die("Error en la consulta de reservas: " . $conexion->error);
+}
 ?>
 
 
@@ -42,8 +72,8 @@ $resultado = $conexion->query($sql);
 
     <style>
         #buscarForm {
-        display: flex;
-        align-items: center;
+            display: flex;
+            align-items: center;
         }
 
         #buscarIcono {
@@ -51,36 +81,53 @@ $resultado = $conexion->query($sql);
             margin-left: 5px;
             cursor: pointer;
         }
+
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .filters-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .filters-wrapper {
+                flex-direction: column;
+            }
+        }
     </style>
 
 </head>
-
 <body>
 
-
-<header class="headerHU">
-    <div class="header-content">
-        <div class="header-logo" style="margin-right: 20px;">
-            <img src="../../Img/logoFCyT.jpeg" alt="Logo" width="180" height="65">
-        </div>
-        <div class="vertical-line" style="border-left: 1px solid white; height: 40px; margin-left: 20px;"></div>
-        <span class="header-title" style="font-family: 'Courgette', cursive; color: white; margin-left: 60px;margin-right:100px;">SISTEMA DE RESERVA DE AULAS DE FCyT</span>
-        <div class="vertical-line" style="border-left: 1px solid white; height: 40px; margin-left: 60px;"></div>
-        <div class="header-links" style="display: flex; align-items: center;">
-                <i class="bi bi-bell-fill" style="margin-left: 40px;"></i>
-                <i class="bi bi-person-circle" style="margin-left: 50px;"></i>
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;margin-left:50px;">
+        <header class="headerHU">
+            <div class="header-content">
+                <div class="header-logo" style="margin-right: 20px;">
+                    <img src="../../Img/logoFCyT.jpeg" alt="Logo" width="180" height="65">
+                </div>
+                <div class="vertical-line" style="border-left: 1px solid white; height: 40px; margin-left: 20px;"></div>
+                <span class="header-title" style="font-family: 'Courgette', cursive; color: white; margin-left: 60px;margin-right:100px;">SISTEMA DE RESERVA DE AULAS DE FCyT</span>
+                <div class="vertical-line" style="border-left: 1px solid white; height: 40px; margin-left: 60px;"></div>
+                <div class="header-links" style="display: flex; align-items: center;">
+                    <i class="bi bi-bell-fill" style="margin-left: 40px;"></i>
+                    <i class="bi bi-person-circle" style="margin-left: 50px;"></i>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;margin-left:50px;">
                     <?php echo $nombreUsuario; ?>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="../../config/controlador_cerrar_sesion.php">Cerar sesion</a></li>
-                </ul>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../../config/controlador_cerrar_sesion.php">Cerar sesion</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </header>
-    
-    
-    <div class="wrapper">
+        </header>
+</body>
+<div class="wrapper">
     <aside id="sidebar">
             <div class="d-flex">
 
@@ -141,13 +188,24 @@ $resultado = $conexion->query($sql);
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
                         <span>RESERVAS</span>
                     </a>
-                    <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">SOLICITUDES DE RESERVAS</a>
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
                         </li>
                     </ul>
                 </li>
-            
+                <li class="sidebar-item">
+                    <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="margin-right: 10px;"/>
+                        <span>SOLICITUDES DE RESERVAS</span>
+                    </a>
+                </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
@@ -159,48 +217,68 @@ $resultado = $conexion->query($sql);
         </aside>
 
 
-            <div class="main p-3">
-                <div class="container text-center" style="height: 400px; overflow-y: auto;">
+        <div class="main p-3">
+            <div class="container">
+                <div class="title-wrapper">            
                     <h2 class="lista-title">SOLICITUD DE RESERVA DE AMBIENTES</h2>
-                    <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 300px;">
-                        <input type="text" name="busqueda" placeholder="Buscar por piso, estado o capacidad" style="width: 100%;">
-                        <button type="submit" style="display: none;"></button> 
-                        <i class="bi bi-search" id="buscarIcono"></i> 
-                    </form>
-
-                <table id="tablaSolicitudes" class="table table-striped">
-                    <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Nombre</th>
-                                <th>Capacidad</th>
-                                <th>Horario</th>
-                                <th>Docente</th>
-                                <th>Grupo</th>
-                                <th>Materia</th>
-                                <th>Estado</th>
-                                <th>Accion</th>
-                            </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    if ($resultado && $resultado->num_rows > 0) {
-                        while ($fila = $resultado->fetch_assoc()) {
-                    ?>    
-                        <tr>    
-                            <td><?php echo $fila[1]; ?></td>
-                            <td><?php echo $fila[2]; ?></td>
-                            <td><?php echo $fila[3]; ?></td>
-                            <td><?php echo $fila[4]; ?></td>
-                            <td><?php echo $fila[5]; ?></td>
-                            <td><?php echo $fila[6]; ?></td>
-                            <td><?php echo $fila[7]; ?></td>
-                            <td><?php echo $fila[8]; ?></td>
-                                        
+                </div>
+                <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 300px;">                   
+                    <input type="text" name="busqueda" placeholder="Buscar por nombre, fecha (YYYY-MM-DD) o capacidad" style="width: 100%;">
+                    <button type="submit" style="display: none;"></button> 
+                    <i class="bi bi-search" id="buscarIcono"></i> 
+                </form>
+                <div class="filters-wrapper">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <!-- Filtro de orden -->
+                            <label for="orden" class="sidebar-link">Ordenar:</label>
+                            <select id="orden" name="orden">
+                                <option value="asc">Ascendente</option>
+                                <option value="desc">Descendente</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Filtro de fecha -->
+                            <label for="filtroFecha" class="sidebar-link">Por Fecha:</label>
+                            <select id="filtroFecha" name="fecha">
+                                <option value="hoy">Hoy</option>
+                                <option value="semana">Última semana</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive"></div>
+            <table id="tablaSolicitudes" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Nombre</th>
+                        <th>Capacidad</th>
+                        <th>Horario</th>
+                        <th>Docente</th>
+                        <th>Grupo</th>
+                        <th>Materia</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                if ($resultado && $resultado->num_rows > 0) {
+                    while ($fila = $resultado->fetch_assoc()) {
+                ?>    
+                        <tr> 
+                            <td><?php echo htmlspecialchars($fila['FECHA']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['AMBIENTE']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['CAPACIDAD']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['HORA']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['USUARIO']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['MOTIVO']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['ESTADO']); ?></td>   
                             <td>
-                                <a href='Solicitud.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Aceptar</a>
-                                <a href='Solicitud.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Rechazar</a>
-
+                                <a href='procesarReserva.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Aceptar</a>
+                                <a href='ProcesarResesrva.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Rechazar</a>
                             </td>
                         </tr>
                     <?php
