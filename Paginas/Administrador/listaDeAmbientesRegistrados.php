@@ -1,7 +1,7 @@
 <?php
 // Conexión a la base de datos
 $host = "localhost";
-$dbname = "proyectotis2";
+$dbname = "proyectotis3";
 $username = "root";
 $password = "";
 

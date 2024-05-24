@@ -2,7 +2,6 @@
 require_once '../../config/validacion_session.php';
 require_once '../../config/conexion.php';
 
-
 $correo = $_SESSION['user'];
 
 $query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
@@ -14,11 +13,13 @@ $row = $result->fetch_assoc();
 $nombreUsuario = $row['nombre'];
 
 // Consulta SQL para obtener todas las solicitudes de reservas
-$sql = "SELECT r.ID_RESERVA, a.NOMBRE AS ambiente, u.NOMBRE AS usuario, r.FECHA_RESERVA, h.HORA
+$sql = "SELECT r.ID_RESERVA, r.FECHA_RESERVA, a.NOMBRE AS nombre_ambiente, a.CAPACIDAD, u.NOMBRE AS nombre_usuario, h.HORA, r.ESTADO, m.NOMBRE AS nombre_materia
         FROM reserva r
-        JOIN ambiente a ON r.ID_AMBIENTE = a.ID_AMBIENTE
-        JOIN usuario u ON r.ID_USUARIO = u.ID_USUARIO
-        JOIN horario h ON r.ID_HORARIO = h.ID_HORARIO
+        LEFT JOIN ambiente a ON r.ID_AMBIENTE = a.ID_AMBIENTE
+        LEFT JOIN realiza rel ON r.ID_RESERVA = rel.ID_RESERVA
+        LEFT JOIN usuario u ON rel.ID_USUARIO = u.ID_USUARIO
+        LEFT JOIN horario h ON r.ID_HORARIO = h.ID_HORARIO
+        LEFT JOIN materia m ON r.ID_MATERIA = m.ID_MATERIA
         WHERE 1";
 
 if (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
@@ -52,8 +53,6 @@ if (!$resultado) {
     die("Error en la consulta de reservas: " . $conexion->error);
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -190,7 +189,7 @@ if (!$resultado) {
                     </a>
                      <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">AÑADIR</a>
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">A&#65533;ADIR</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
@@ -242,7 +241,7 @@ if (!$resultado) {
                             <label for="filtroFecha" class="sidebar-link">Por Fecha:</label>
                             <select id="filtroFecha" name="fecha">
                                 <option value="hoy">Hoy</option>
-                                <option value="semana">Última semana</option>
+                                <option value="semana">&#65533;ltima semana</option>
                             </select>
                         </div>
                     </div>
@@ -257,7 +256,6 @@ if (!$resultado) {
                         <th>Capacidad</th>
                         <th>Horario</th>
                         <th>Docente</th>
-                        <th>Grupo</th>
                         <th>Materia</th>
                         <th>Estado</th>
                         <th>Accion</th>
@@ -265,16 +263,16 @@ if (!$resultado) {
                 </thead>
                 <tbody>
                 <?php
-                if ($resultado && $resultado->num_rows > 0) {
+                  if ($resultado && $resultado->num_rows > 0) {
                     while ($fila = $resultado->fetch_assoc()) {
                 ?>    
                         <tr> 
-                            <td><?php echo htmlspecialchars($fila['FECHA']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['AMBIENTE']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['FECHA_RESERVA']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['nombre_ambiente']); ?></td>   
                             <td><?php echo htmlspecialchars($fila['CAPACIDAD']); ?></td>   
                             <td><?php echo htmlspecialchars($fila['HORA']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['USUARIO']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['MOTIVO']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>   
+                            <td><?php echo htmlspecialchars($fila['nombre_materia']); ?></td>    
                             <td><?php echo htmlspecialchars($fila['ESTADO']); ?></td>   
                             <td>
                                 <a href='procesarReserva.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Aceptar</a>
@@ -299,4 +297,4 @@ if (!$resultado) {
 
 
 </body>
-</html>
+</html>					
