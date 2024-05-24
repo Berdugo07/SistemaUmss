@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "proyectotis2";
+$dbname = "proyectotis3";
 $username = "root";
 $password = "";
 
@@ -8,7 +8,7 @@ try {
     $conexion = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
-    echo "Error de conexi&#65533;n: " . $e->getMessage();
+    echo "Error de conexion: " . $e->getMessage();
 }
 
 $id = $_GET['id'] ?? '';
@@ -21,11 +21,10 @@ if ($id) {
     $ambiente = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$ambiente) {
-        echo "No se encontr&#65533; el ambiente.";
+        echo "No se encontro el ambiente.";
         exit();
     }
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre'];
@@ -261,7 +260,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             } else {
                 swal({
-                    title: "&#65533;Cambios guardados!",
+                    title: "Cambios guardados!",
                     text: "Los cambios han sido guardados exitosamente.",
                     icon: "success",
                     button: "Aceptar"

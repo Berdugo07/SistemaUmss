@@ -28,9 +28,9 @@ if (isset($_GET['busqueda']) && !empty($_GET['busqueda'])) {
     if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $termino_busqueda)) {
         $sql .= " AND r.FECHA_RESERVA = '$termino_busqueda'";
     } elseif (is_numeric($termino_busqueda)) {
-        $sql .= " AND a.CAPACIDAD >= $termino_busqueda";
+        $sql .= " AND a.ESTADO >= $termino_busqueda";
     } else {
-        $sql .= " AND a.NOMBRE LIKE '%$termino_busqueda%'";
+        $sql .= " AND (LOWER(a.NOMBRE) LIKE '%$termino_busqueda%' OR LOWER(u.NOMBRE) LIKE '%$termino_busqueda%' OR LOWER(m.NOMBRE) LIKE '%$termino_busqueda%' OR LOWER(r.ESTADO) LIKE '%$termino_busqueda%')";
     }
 }
 
@@ -91,7 +91,7 @@ if (!$resultado) {
         .filters-wrapper {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             margin-bottom: 20px;
         }
 
@@ -99,6 +99,23 @@ if (!$resultado) {
             .filters-wrapper {
                 flex-direction: column;
             }
+        }
+
+        
+        .filters-wrapper select {
+            width: calc(50% - 5px);
+            margin-right: 10px; 
+            margin-bottom: 10px; 
+        }
+
+        .filters-wrapper label {
+            margin-right: 10px; 
+        }
+        
+        #buscarForm input[type="text"] {
+            width: 100%; 
+            max-width: 400px; 
+        
         }
     </style>
 
@@ -221,11 +238,11 @@ if (!$resultado) {
                 <div class="title-wrapper">            
                     <h2 class="lista-title">SOLICITUD DE RESERVA DE AMBIENTES</h2>
                 </div>
-                <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 300px;">                   
-                    <input type="text" name="busqueda" placeholder="Buscar por nombre, fecha (YYYY-MM-DD) o capacidad" style="width: 100%;">
-                    <button type="submit" style="display: none;"></button> 
-                    <i class="bi bi-search" id="buscarIcono"></i> 
+                <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 400px;">                   
+                    <input type="text" name="busqueda" placeholder="Buscar por nombre, fecha (YYYY-MM-DD) o estado" style="width: 100%;">
+                    <button type="submit" id="buscarBtn"><i class="bi bi-search"></i></button>  
                 </form>
+
                 <div class="filters-wrapper">
                     <div class="row mt-3">
                         <div class="col-md-6">
@@ -241,7 +258,7 @@ if (!$resultado) {
                             <label for="filtroFecha" class="sidebar-link">Por Fecha:</label>
                             <select id="filtroFecha" name="fecha">
                                 <option value="hoy">Hoy</option>
-                                <option value="semana">&#65533;ltima semana</option>
+                                <option value="semana">ultima semana</option>
                             </select>
                         </div>
                     </div>
@@ -274,10 +291,14 @@ if (!$resultado) {
                             <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>   
                             <td><?php echo htmlspecialchars($fila['nombre_materia']); ?></td>    
                             <td><?php echo htmlspecialchars($fila['ESTADO']); ?></td>   
+                            
                             <td>
-                                <a href='procesarReserva.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Aceptar</a>
-                                <a href='ProcesarResesrva.php?id=<?php echo $fila['ID_RESERVA']; ?>' class='btn btn-primary'>Rechazar</a>
+                                <a href='procesarReservas.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=aceptar' class='btn btn-primary'>Aceptar</a>
+                                <a href='procesarReservas.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=rechazar' class='btn btn-secondary'>Cancelar</a>
+
                             </td>
+    
+                            
                         </tr>
                     <?php
                         }
@@ -297,4 +318,9 @@ if (!$resultado) {
 
 
 </body>
-</html>					
+</html>	
+<script>
+document.getElementById("buscarIcono").addEventListener("click", function() {
+    document.getElementById("buscarBtn").click();
+});
+</script>
