@@ -1,16 +1,15 @@
 <?php
+
 require_once '../../config/validacion_session.php';
 require_once '../../config/conexion.php';
 
 $correo = $_SESSION['user'];
 
-$query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
-$result = $conexion->query($query);
-if (!$result) {
-    die("Error en la consulta del nombre de usuario: " . $conexion->error);
-}
-$row = $result->fetch_assoc();
-$nombreUsuario = $row['nombre'];
+$query = "SELECT nombre FROM usuario WHERE correo = :correo";
+$stmt = $conexion->prepare($query);
+$stmt->bindParam(':correo', $correo);
+$stmt->execute();
+$nombreUsuario = $stmt->fetchColumn();
 
 // Consulta SQL para obtener todas las solicitudes de reservas
 $sql = "SELECT r.ID_RESERVA, r.FECHA_RESERVA, a.NOMBRE AS nombre_ambiente, a.CAPACIDAD, u.NOMBRE AS nombre_usuario, h.HORA, r.ESTADO, m.NOMBRE AS nombre_materia
@@ -117,6 +116,29 @@ if (!$resultado) {
             max-width: 400px; 
         
         }
+
+        .table-wrapper {
+            overflow-y: auto; /* Barra de desplazamiento vertical siempre visible */
+            overflow-x: auto; /* Barra de desplazamiento horizontal se mostrará solo si es necesario */
+            max-height: 300px; /* Altura máxima de la tabla */
+        }
+
+        .table-responsive {
+
+            overflow-y: auto;
+            overflow-x: auto;
+          
+        }
+
+        .table-striped {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            background-color: transparent;
+        }
+        .table-wrapper {
+            margin-bottom: 20px;
+        }
     </style>
 
 </head>
@@ -134,7 +156,7 @@ if (!$resultado) {
                     <i class="bi bi-bell-fill" style="margin-left: 40px;"></i>
                     <i class="bi bi-person-circle" style="margin-left: 50px;"></i>
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;margin-left:50px;">
-                    <?php echo $nombreUsuario; ?>
+                        <?php echo $nombreUsuario; ?>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="../../config/controlador_cerrar_sesion.php">Cerar sesion</a></li>
@@ -142,104 +164,101 @@ if (!$resultado) {
                 </div>
             </div>
         </header>
-</body>
-<div class="wrapper">
-    <aside id="sidebar">
-            <div class="d-flex">
-
-                <button id="toggle-btn" type="button">
-                    <i class="lni lni-menu"></i>
-                </button>
-            </div>
-            <ul class="ul sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="HomeA.php" class="sidebar-link" style="text-decoration: none;">
-                        <i class="bi bi-house-door-fill fs-4"></i>
-                        <span>INICIO</span>
-                    </a>
-                    </li>
-                    <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
-                        <span>REGISTRO AMBIENTES</span>
-                    </a>
-                    <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <li class="sidebar-item">
-                        <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN AMBIENTE</a>
+        <div class="wrapper">
+            <aside id="sidebar">
+                    <div class="d-flex">
+                        <button id="toggle-btn" type="button">
+                            <i class="lni lni-menu"></i>
+                        </button>
+                    </div>
+                    <ul class="ul sidebar-nav">
+                        <li class="sidebar-item">
+                            <a href="HomeA.php" class="sidebar-link" style="text-decoration: none;">
+                                <i class="bi bi-house-door-fill fs-4"></i>
+                                <span>INICIO</span>
+                            </a>
+                            </li>
+                            <li class="sidebar-item">
+                            <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarA" aria-expanded="false" aria-controls="Registrar_ambiente" style="text-decoration: none;">
+                            <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/plus-2-math.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                                <span>REGISTRO AMBIENTES</span>
+                            </a>
+                            <ul id="RegistrarA" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a href="./RegistrodeAmbiente.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN AMBIENTE</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="sidebar-item">
-                            <a href="./ambientes_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS AMBIENTES</a>
+                            <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
+                            <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
+                                <span>REGISTRAR USUARIO</span>
+                            </a>
+                            <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
+                                </li>
+                                
+                            </ul>
                         </li>
                         <li class="sidebar-item">
-                            <a href="listaDeAmbientesRegistrados.php" class="sidebar-link" style="text-decoration: none;">LISTA DE AMBIENTES REGISTRADOS</a>
+                            <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
+                                <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                                <span>MODIFICAR CUENTAS DE USUARIO</span>
+                            </a>
+                        </li>
+ 
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
+                                <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
+                                <span>RESERVAS</span>
+                            </a>
+                            <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link" style="text-decoration: none;">A&#65533;ADIR</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">
+                                <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="margin-right: 10px;"/>
+                                <span>SOLICITUDES DE RESERVAS</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link" style="text-decoration: none;">
+                                <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
+                                <span>CALENDARIO</span>
+                            </a>
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#RegistrarU" aria-expanded="false" aria-controls="RegistrodeAmbiente" style="text-decoration: none;">
-                    <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/add-user-male.png" alt="plus-2-math" style="filter: invert(100%);margin-right: 10px;"/>
-                        <span>REGISTRAR USUARIO</span>
-                    </a>
-                    <ul id="RegistrarU" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                        <a href="./registrar_usuario.php" class="sidebar-link"  data-bs-target="#staticBackdrop2" style="text-decoration: none;">REGISTRAR UN SOLO USUARIO</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="./formulario_csv.php" class="sidebar-link" style="text-decoration: none;">REGISTRAR VARIOS USUARIOS</a>
-                        </li>
-                        
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>MODIFICAR CUENTAS DE USUARIO</span>
-                    </a>
-                </li>
-                    
-
-                
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#Reserva" aria-expanded="false" aria-controls="Reserva" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/reservation-2.png" alt="reservation-2" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>RESERVAS</span>
-                    </a>
-                     <ul id="Reserva" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">A&#65533;ADIR</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">ELIMINAR</a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="#" class="sidebar-link" style="text-decoration: none;">MODIFICAR</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a href="solicitudesDeReservas.php" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/requirement.png" alt="requirement" style="margin-right: 10px;"/>
-                        <span>SOLICITUDES DE RESERVAS</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link" style="text-decoration: none;">
-                        <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/calendar--v1.png" alt="CALENDAR" style="filter: invert(100%);margin-right: 10px;" />
-                        <span>CALENDARIO</span>
-                    </a>
-                </li>
-        
             </ul>
         </aside>
 
 
-        <div class="main p-3">
+        <main class="main">
             <div class="container">
                 <div class="title-wrapper">            
                     <h2 class="lista-title">SOLICITUD DE RESERVA DE AMBIENTES</h2>
                 </div>
                 <form id="buscarForm" method="GET" style="margin-left: auto; margin-right: 20px; width: 400px;">                   
-                    <input type="text" name="busqueda" placeholder="Buscar por nombre, fecha (YYYY-MM-DD) o estado" style="width: 100%;">
+                    <input type="text" name="busqueda" placeholder="Buscar por nombre, fecha (YYYY-MM-DD)" style="width: 100%;">
                     <button type="submit" id="buscarBtn"><i class="bi bi-search"></i></button>  
                 </form>
 
@@ -261,62 +280,75 @@ if (!$resultado) {
                                 <option value="semana">ultima semana</option>
                             </select>
                         </div>
+                        <div style="display: flex;">
+                            <label for="filtroEstado">Filtrar por estado:</label>
+                            <select id="filtroEstado" name="filtroEstado">
+                                <option value="">Todos</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="aprobado">Aceptado</option>
+                                <option value="rechazado">Rechazado</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <div class="table-wrapper">
+                    <div class="table-responsive">
+                        <table id="tablaSolicitudes" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Nombre</th>
+                                    <th>Capacidad</th>
+                                    <th>Horario</th>
+                                    <th>Docente</th>
+                                    <th>Materia</th>
+                                    <th>Estado</th>
+                                    <th>Accion</th>
+                                    <th>      </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if ($resultado && $resultado->num_rows > 0) {
+                                    while ($fila = $resultado->fetch_assoc()) {
+                                        ?>    
+                                        <tr> 
+                                            <td><?php echo htmlspecialchars($fila['FECHA_RESERVA']); ?></td>   
+                                            <td><?php echo htmlspecialchars($fila['nombre_ambiente']); ?></td>   
+                                            <td><?php echo htmlspecialchars($fila['CAPACIDAD']); ?></td>   
+                                            <td><?php echo htmlspecialchars($fila['HORA']); ?></td>   
+                                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>   
+                                            <td><?php echo htmlspecialchars($fila['nombre_materia']); ?></td>    
+                                            <td><?php echo htmlspecialchars($fila['ESTADO']); ?></td>   
+                                                
+                                            <td>
+                                                <a href='procesarReservas.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=aceptar' class='btn btn-primary'>Aceptar</a>
+                                                <a href='procesarReservas.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=rechazar' class='btn btn-danger'>Cancelar</a>
+                                            </td> 
+
+                                            <td>
+                                            <a href='verificarReserva.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=rechazar' class='btn btn-success' style='display: block; width: 100px;'>
+                                                Visualizar<br> Solicitud
+                                            </a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='5'>No hay solicitudes de reservas.</td></tr>";
+                                    } 
+                                                
+                                ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="table-responsive"></div>
-            <table id="tablaSolicitudes" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Nombre</th>
-                        <th>Capacidad</th>
-                        <th>Horario</th>
-                        <th>Docente</th>
-                        <th>Materia</th>
-                        <th>Estado</th>
-                        <th>Accion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                  if ($resultado && $resultado->num_rows > 0) {
-                    while ($fila = $resultado->fetch_assoc()) {
-                ?>    
-                        <tr> 
-                            <td><?php echo htmlspecialchars($fila['FECHA_RESERVA']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['nombre_ambiente']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['CAPACIDAD']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['HORA']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['nombre_usuario']); ?></td>   
-                            <td><?php echo htmlspecialchars($fila['nombre_materia']); ?></td>    
-                            <td><?php echo htmlspecialchars($fila['ESTADO']); ?></td>   
-                            
-                            <td>
-                                <a href='procesarReservas.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=aceptar' class='btn btn-primary'>Aceptar</a>
-                                <a href='procesarReservas.php?id=<?php echo $fila['ID_RESERVA']; ?>&accion=rechazar' class='btn btn-secondary'>Cancelar</a>
+        </main>
+        
 
-                            </td>
-    
-                            
-                        </tr>
-                    <?php
-                        }
-                    } else {
-                        echo "<tr><td colspan='5'>No hay solicitudes de reservas.</td></tr>";
-                    } 
-                            
-                    ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="../../js/MenuLateral.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="../../js/MenuLateral.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 </html>	
 <script>

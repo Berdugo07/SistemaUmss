@@ -4,7 +4,7 @@ require_once '../../config/conexion.php';
 
 $correo = $_SESSION['user'];
 
-$query = "SELECT nombre FROM usuarios WHERE correo = '$correo'";
+$query = "SELECT nombre FROM usuario WHERE correo = '$correo'";
 $result = $conexion->query($query);
 $row = $result->fetch_assoc();
 $nombreUsuario = $row['nombre'];

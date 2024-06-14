@@ -30,6 +30,7 @@ $nombreUsuario = $row['nombre'];
     
 </head>
 
+
 <body>
 
         <header class="headerHU">
@@ -146,6 +147,12 @@ $nombreUsuario = $row['nombre'];
                     <a href="modificar_usuario.php" class="sidebar-link" style="text-decoration: none;">
                         <img width="25" height="25" src="https://img.icons8.com/fluency-systems-filled/48/edit-user.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
                         <span>MODIFICAR CUENTA DE USUARIO</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="reporteDeAmbientes.php" class="sidebar-link" style="text-decoration: none;">
+                        <img width="25" height="25" src="https://img.icons8.com/ios/50/FFFFFF/bar-chart--v1.png" alt="USERMODIFICAR" style="filter: invert(100%);margin-right: 10px;" />
+                        <span>REPORTE DE USO DE AMBIENTES</span>
                     </a>
                 </li>
             </ul>

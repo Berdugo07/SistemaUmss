@@ -1,6 +1,16 @@
 <?php
-require_once '../../config/validacion_session.php'; 
-require_once '../../config/conexion.php'; 
+$host = "localhost";
+$dbname = "proyectotis3";
+$username = "root";
+$password = "";
+
+try {
+    $conexion = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo "Error de conexion: " . $e->getMessage();
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_GET['accion']) && !empty($_GET['id']) && !empty($_GET['accion'])) {
     
@@ -39,10 +49,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && isset($_GET['ac
 
             // Si hay reservas aceptadas para el mismo ambiente y fecha, mostrar un mensaje de error
             if ($stmt_reservas_aceptadas->num_rows > 0) {
-                echo "<script>
-                        alert('No se puede aceptar la reserva porque ya existe una reserva aceptada para el mismo ambiente y fecha.');
+                ?>
+                <script>
+                    swal({
+                        title: 'Error',
+                        text: 'No se puede aceptar la reserva porque ya existe una reserva aceptada para el mismo ambiente y fecha.',
+                        icon: 'error',
+                        button: 'Aceptar'
+                    }).then(function() {
                         window.history.back();
-                      </script>";
+                    });
+                </script>
+                <?php
                 exit; // Salir del script
             }
 
